@@ -4,16 +4,24 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Serialization;
+using PsychologyTest.Models;
 
 namespace PsychologyTest
 {
     public class Startup
     {
+        private IHostingEnvironment _env;
+        public IConfigurationRoot Configuration { get; }
+
         public Startup(IHostingEnvironment env)
         {
+            _env = env;
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -22,39 +30,73 @@ namespace PsychologyTest
             Configuration = builder.Build();
         }
 
-        public IConfigurationRoot Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
-            services.AddMvc();
+            services.AddSingleton(Configuration);
+            // TODO: Agregar servicio controlador de Emails
+
+            services.AddMvc(config =>
+            {
+                if (_env.IsProduction()) {
+                    config.Filters.Add(new RequireHttpsAttribute());
+                }
+            }).AddJsonOptions(config =>
+            {
+                config.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            });
+
+            services.AddIdentity<PsyTestUser, IdentityRole>(config =>
+            {
+                //User
+                config.User.RequireUniqueEmail = true;
+
+                //Password
+                config.Password.RequiredLength = 8;
+                config.Password.RequireUppercase = true;
+                config.Password.RequireDigit = true;
+                config.Password.RequireNonAlphanumeric = false;
+                config.Password.RequireLowercase = false;
+
+                //Cookies
+                config.Cookies.ApplicationCookie.LoginPath = "/Auth/login";
+            })
+            .AddEntityFrameworkStores<PsyTestContext>()
+            .AddDefaultTokenProviders();
+
+            services.AddDbContext<PsyTestContext>();
+            services.AddTransient<PsyTestSeedData>();
+            services.AddLogging();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app,
+            IHostingEnvironment env,
+            PsyTestSeedData seeder,
+            ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
 
             app.UseStaticFiles();
+            app.UseIdentity();
+            
+            if (env.IsDevelopment()) {
+                app.UseDeveloperExceptionPage();
+                app.UseBrowserLink();
+                loggerFactory.AddDebug(LogLevel.Information);
+            }
+            else {
+                app.UseExceptionHandler("/Home/Error");
+                loggerFactory.AddDebug(LogLevel.Error);
+            }
 
-            app.UseMvc(routes =>
-            {
+            app.UseMvc(routes => {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            seeder.SeedDataTask().Wait();
         }
     }
 }

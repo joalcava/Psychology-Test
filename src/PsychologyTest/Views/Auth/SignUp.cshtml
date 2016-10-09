@@ -1,0 +1,119 @@
+﻿@model PsychologyTest.ViewModels.SignUpViewModel
+@{
+    ViewBag.Title = "Registrarse";
+}
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
+<div class="jumbotron">
+    <form class="form-horizontal" method="post" novalidate>
+        <div asp-validation-summary="ModelOnly"></div>
+
+        <h2>Crear una cuenta</h2>
+
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Nombres</label>
+            <div class="col-lg-10">
+                <input asp-for="FirstName" class="form-control" id="inputName" type="text" placeholder="Jose Alejandro" autocomplete="off">
+                <span asp-validation-for="FirstName"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Apellidos</label>
+            <div class="col-lg-10">
+                <input asp-for="LastName" class="form-control" id="inputLastName" type="text" placeholder="Cardona Valdes" autocomplete="off">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Tipo de documento</label>
+            <div class="col-lg-10">
+                <select asp-for="TipoDocId" class="form-control" id="selectDoctype">
+                    <option>Cedula</option>
+                    <option>Tarjeta de identidad</option>
+                    <option>Registro Civil</option>
+                    <option>Cedula extranjera</option>
+                    <option>Pasaporte</option>
+                </select>
+                <span asp-validation-for="TipoDocId"></span>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Numero de documento</label>
+            <div class="col-lg-10">
+                <input asp-for="DocId" class="form-control" id="inputIdNumber" type="text" autocomplete="off">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Genero</label>
+            <div class="col-lg-10">
+                <select asp-for="Genero" class="form-control" id="selectGenero">
+                    <option>Masculino</option>
+                    <option>Femenino</option>
+                    <option>Otro</option>
+                </select>
+                <span asp-validation-for="Genero"></span>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Direccion de recidencia</label>
+            <div class="col-lg-10">
+                <input asp-for="Direccion" class="form-control" id="inputDireccion" type="text" autocomplete="off">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Numero de telefono</label>
+            <div class="col-lg-10">
+                <input asp-for="Telefono" class="form-control" id="inputTelefono" type="text" autocomplete="off">
+                <span asp-validation-for="Telefono"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Correo electronico</label>
+            <div class="col-lg-10">
+                <input asp-for="Correo" class="form-control" id="inputEmail" type="email" placeholder="psytest@psytest.com" autocomplete="off">
+                <span asp-validation-for="Correo"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Contraseña</label>
+            <div class="col-lg-10">
+                <input asp-for="Password" class="form-control lastpassClearHidden" id="inputPassword1" type="password" placeholder="Password" autocomplete="off">
+                <span asp-validation-for="Password"></span>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Confirmar contraseña</label>
+            <div class="col-lg-10">
+                <input class="form-control lastpassClearHidden" id="inputPassword2" type="password" placeholder="Password" autocomplete="off">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-2 control-label" >Tipo de usuario</label>
+            <div class="col-lg-10">
+                <select asp-for="Rol" class="form-control" id="selectRol">
+                    <option>Psicologo</option>
+                    <option>Estudiante</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-lg-10 col-lg-offset-2">
+                <button class="btn btn-default" type="reset">Cancelar</button>
+                <button class="btn btn-primary" type="submit">Enviar</button>
+            </div>
+        </div>
+    </form>
+</div>
