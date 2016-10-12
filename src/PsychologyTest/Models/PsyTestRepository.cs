@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using PsychologyTest.ViewModels;
@@ -127,9 +126,16 @@ namespace PsychologyTest.Models
             }
         }
 
-        public IEnumerable<string> GetAllInstitucionNames()
+        public List<string> GetAllInstitucionNames()
         {
             return _context.Instituciones.Select(n => n.Nombre).ToList();
         }
+
+        public List<string> GetAllGrupoNames()
+        {
+            return _context.Grupos.Select(n => n.Nombre).ToList();
+        }
+
+
     }
 }

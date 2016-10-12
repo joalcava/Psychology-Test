@@ -1,7 +1,9 @@
-﻿@model PsychologyTest.ViewModels.RegisterViewModel
+﻿@model PsychologyTest.ViewModels.CreateUserViewModel
+
 @{
     ViewBag.Title = "Registrarse";
 }
+
 @section Scripts {
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
@@ -27,54 +29,6 @@
                 <input asp-for="Apellidos" class="form-control" id="inputLastName" type="text" placeholder="Cardona Valdes" autocomplete="off">
             </div>
         </div>
-        
-        <div class="form-group">
-            <label asp-for="TipoDocId" class="col-lg-2 control-label"></label>
-            <div class="col-lg-10">
-                <select asp-for="TipoDocId" class="form-control" id="selectDoctype">
-                    <option>Cedula</option>
-                    <option>Tarjeta de identidad</option>
-                    <option>Registro Civil</option>
-                    <option>Cedula extranjera</option>
-                    <option>Pasaporte</option>
-                </select>
-                <span asp-validation-for="TipoDocId"></span>
-            </div>
-        </div>
-        
-        <div class="form-group">
-            <label asp-for="DocId" class="col-lg-2 control-label"></label>
-            <div class="col-lg-10">
-                <input asp-for="DocId" class="form-control" id="inputIdNumber" type="text" autocomplete="off">
-                <span asp-validation-for="DocId"></span>
-            </div>
-        </div>
-        
-        <div class="form-group">
-            <label asp-for="Genero" class="col-lg-2 control-label"></label>
-            <div class="col-lg-10">
-                <select asp-for="Genero" class="form-control" id="selectGenero">
-                    <option>Masculino</option>
-                    <option>Femenino</option>
-                    <option>Otro</option>
-                </select>
-                <span asp-validation-for="Genero"></span>
-            </div>
-        </div>
-        
-        <div class="form-group">
-            <label asp-for="Direccion" class="col-lg-2 control-label"></label>
-            <div class="col-lg-10">
-                <input asp-for="Direccion" class="form-control" id="inputDireccion" type="text" autocomplete="off">
-            </div>
-        </div>
-        
-        <div class="form-group">
-            <label asp-for="PhoneNumber" class="col-lg-2 control-label"></label>
-            <div class="col-lg-10">
-                <input asp-for="PhoneNumber" class="form-control" id="inputTelefono" type="text" autocomplete="off">
-            </div>
-        </div>
 
         <div class="form-group">
             <label asp-for="Email" class="col-lg-2 control-label"></label>
@@ -91,7 +45,7 @@
                 <span asp-validation-for="Password"></span>
             </div>
         </div>
-        
+
         <div class="form-group">
             <label class="col-lg-2 control-label">Confirmar contraseña</label>
             <div class="col-lg-10">
@@ -101,21 +55,101 @@
         </div>
 
         <div class="form-group">
+            <label asp-for="TipoDocId" class="col-lg-2 control-label"></label>
+            <div class="col-lg-10">
+                <select asp-for="TipoDocId" class="form-control" id="selectDoctype">
+                    <option>Cedula</option>
+                    <option>Tarjeta de identidad</option>
+                    <option>Registro Civil</option>
+                    <option>Cedula extranjera</option>
+                    <option>Pasaporte</option>
+                </select>
+                <span asp-validation-for="TipoDocId"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="DocId" class="col-lg-2 control-label"></label>
+            <div class="col-lg-10">
+                <input asp-for="DocId" class="form-control" id="inputIdNumber" type="text" autocomplete="off">
+                <span asp-validation-for="DocId"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="PhoneNumber" class="col-lg-2 control-label"></label>
+            <div class="col-lg-10">
+                <input asp-for="PhoneNumber" class="form-control" id="inputTelefono" type="text" autocomplete="off">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Direccion" class="col-lg-2 control-label"></label>
+            <div class="col-lg-10">
+                <input asp-for="Direccion" class="form-control" id="inputDireccion" type="text" autocomplete="off">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Genero" class="col-lg-2 control-label"></label>
+            <div class="col-lg-10">
+                <select asp-for="Genero" class="form-control" id="selectGenero">
+                    <option>Masculino</option>
+                    <option>Femenino</option>
+                    <option>Otro</option>
+                </select>
+                <span asp-validation-for="Genero"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
             <label class="col-lg-2 control-label">Tipo de usuario</label>
             <div class="col-lg-10">
-                <select asp-for="RolSolicitado" class="form-control" id="selectRol">
-                    <option>Estudiante</option>
-                    <option>Psicologo</option>
-                    <option>Administrador</option>
+                <select asp-for="RolSolicitado" class="rolSel form-control" id="selectRol" onchange="rolCambio()">
+                    <option></option>
+                    <option value="Estudiante">Estudiante</option>
+                    <option value="Psicologo">Psicologo</option>
+                    <option value="Administrador">Administrador</option>
                 </select>
             </div>
         </div>
-        
-        <div class="form-group">
-            <div class="col-lg-10 col-lg-offset-2">
-                <a asp-controller="Auth" asp-action="SignUpCancel" type="submit" class="btn btn-default">Volver</a>
-                <button class="btn btn-primary" type="submit">Enviar</button>
-            </div>
+
+    <div id="divInstitucion" class="form-group">
+        <label class="col-lg-2 control-label">Seleccione una institucion</label>
+        <div class="col-lg-10">
+            <select asp-for="InstitucionSolicitada" class="form-control" id="selectInstitucion" onchange="">
+                <option></option>
+                @foreach (var inst in Model.Instituciones) {
+                    <option value="@inst.Nombre">@inst.Nombre</option>
+                }
+            </select>
         </div>
-    </form>
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-10 col-lg-offset-2">
+            <a asp-controller="Auth" asp-action="SignUpCancel" type="submit" class="btn btn-default">Volver</a>
+            <button class="btn btn-primary" type="submit">Enviar</button>
+        </div>
+    </div>
+
+    <script>
+        function rolCambio() {
+            var sel = document.getElementById("selectRol");
+            var option = sel.options[sel.selectedIndex].value;
+            if (option === "Estudiante") {
+                document.getElementById("divInstitucion").style.display = 'block';
+            }
+            else {
+                document.getElementById("divInstitucion").style.display = 'none';
+            }
+        };
+    </script>
+
+
+
+</form>
+
+
+
 </div>

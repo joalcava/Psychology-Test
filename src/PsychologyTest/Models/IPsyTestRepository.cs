@@ -13,8 +13,9 @@ namespace PsychologyTest.Models
         void UpdateUser(string email, PsyTestUser vm);
         IEnumerable<Grupo> GetAllGrupos();
         IEnumerable<Institucion> GetAllInstituciones();
-        IEnumerable<string> GetAllInstitucionNames();
+        List<string> GetAllInstitucionNames();
         bool AddInstitucion(Institucion institucion);
         bool AddGrupo(ViewModels.GrupoViewModel grupo);
+        List<string> GetAllGrupoNames();
     }
 }

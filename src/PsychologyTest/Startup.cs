@@ -85,7 +85,7 @@ namespace PsychologyTest
             //TODO: Crear mi propio mapper
             Mapper.Initialize(config =>
             {
-                config.CreateMap<ViewModels.RegisterViewModel, PsyTestUser>().ReverseMap();
+                config.CreateMap<ViewModels.CreateUserViewModel, PsyTestUser>().ReverseMap();
                 config.CreateMap<ViewModels.RootEditUserViewModel, PsyTestUser>().ReverseMap();
                 config.CreateMap<ViewModels.RootCreateUserViewModel, PsyTestUser>().ReverseMap();
                 config.CreateMap<ViewModels.GrupoViewModel, Grupo>().ReverseMap();

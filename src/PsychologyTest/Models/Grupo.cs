@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace PsychologyTest.Models
+﻿namespace PsychologyTest.Models
 {
     public class Grupo
     {

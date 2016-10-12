@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -10,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using PsychologyTest.Models;
 using PsychologyTest.ViewModels;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 
 namespace PsychologyTest.Controllers
 {
@@ -19,15 +17,18 @@ namespace PsychologyTest.Controllers
         private readonly UserManager<PsyTestUser> _userManager;
         private readonly SignInManager<PsyTestUser> _signInManager;
         private readonly ILogger _logger;
+        private IPsyTestRepository _context;
 
         public AuthController(
             UserManager<PsyTestUser> userManager,
             SignInManager<PsyTestUser> signInManager,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            IPsyTestRepository context)
         {
             this._userManager = userManager;
             this._signInManager = signInManager;
             _logger = loggerFactory.CreateLogger<AuthController>();
+            _context = context;
         }
         #endregion
 
@@ -40,12 +41,14 @@ namespace PsychologyTest.Controllers
                 var user = _userManager.FindByNameAsync(User.Identity.Name);
                 return RedirectToAction("RedirectToRol", "Home", user);
             }
-            return View();
+            var vm = new CreateUserViewModel();
+            vm.Instituciones = _context.GetAllInstituciones();
+            return View(vm);
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Register(RegisterViewModel vm)
+        public async Task<IActionResult> Register(CreateUserViewModel vm)
         {
             if (ModelState.IsValid) {
                 var newUser = Mapper.Map<PsyTestUser>(vm);

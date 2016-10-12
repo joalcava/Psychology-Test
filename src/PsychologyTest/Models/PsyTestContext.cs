@@ -11,6 +11,8 @@ namespace PsychologyTest.Models
         public DbSet<Institucion> Instituciones { get; set; }
         public DbSet<Grupo> Grupos { get; set; }
         public DbSet<DeletedUsers> UsuariosViejos { get; set; }
+        public DbSet<Estudiante> Estudiantes { get; set; }
+        public DbSet<Psicologo> Psicologos { get; set; }
 
         public PsyTestContext(IConfigurationRoot config, DbContextOptions options) 
             : base(options)
