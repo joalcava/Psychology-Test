@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PsychologyTest.ViewModels
 {
-    public class RootRegisterViewModel
+    public class RootCreateUserViewModel
     {
         [StringLength(25, MinimumLength = 4, ErrorMessage = "El nombre debe ser de almenos 4 caracteres y maximo 25")]
         [Display(Name = "Nombres")]

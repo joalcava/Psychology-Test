@@ -35,12 +35,34 @@
             <input asp-for="Apellidos" class="form-control" type="text" value="@Model.Apellidos" autocomplete="off">
         </div>
     </div>
+    
+    <div class="form-group">
+        <label asp-for="Email" class="col-lg-2 control-label"></label>
+        <div class="col-lg-10">
+            <input asp-for="Email" value="@Model.Email" readonly class="form-control" type="text">
+        </div>
+    </div>
 
     <div class="form-group">
         <label asp-for="TipoDocId" class="col-lg-2 control-label"></label>
         <div class="col-lg-10">
-            <input asp-for="TipoDocId" class="form-control" type="text" value="@Model.TipoDocId" />
+            <select asp-for="TipoDocId" id="selectDocId" class="form-control">
+                <option value=""></option>
+                <option value="Cedula">Cedula</option>
+                <option value="Tarjeta de identidad">Tarjeta de identidad</option>
+                <option value="Registro Civil">Registro Civil</option>
+                <option value="Cedula extranjera">Cedula extranjera</option>
+                <option value="Pasaporte">Pasaporte</option>
+            </select>
             <span asp-validation-for="TipoDocId"></span>
+            <script>
+                var sel = document.getElementById('selectDocId');
+                var options = sel.options;
+                for (var i=0; options.length; i++) {
+                    if (@Model.TipoDocId === options[i].value)
+                        sel.selectedIndex = i;
+                }
+            </script>
         </div>
     </div>
 
@@ -51,12 +73,11 @@
             <span asp-validation-for="DocId"></span>
         </div>
     </div>
-
+    
     <div class="form-group">
-        <label asp-for="Genero" class="col-lg-2 control-label"></label>
+        <label asp-for="PhoneNumber" class="col-lg-2 control-label"></label>
         <div class="col-lg-10">
-            <input asp-for="Genero" class="form-control" value="@Model.Genero" type="text" />
-            <span asp-validation-for="Genero"></span>
+            <input asp-for="PhoneNumber" class="form-control" value="@Model.PhoneNumber" type="text" autocomplete="off">
         </div>
     </div>
 
@@ -68,24 +89,55 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="PhoneNumber" class="col-lg-2 control-label"></label>
+        <label asp-for="Genero" class="col-lg-2 control-label"></label>
         <div class="col-lg-10">
-            <input asp-for="PhoneNumber" class="form-control" value="@Model.PhoneNumber" type="text" autocomplete="off">
+            <select asp-for="Genero" class="form-control" id="selectGenero">
+                <option value=""></option>
+                <option value="Masculino">Masculino</option>
+                <option value="Femenino">Femenino</option>
+                <option value="Otro">Otro</option>
+            </select>
+            <span asp-validation-for="Genero"></span>
+            <script>
+                var sel = document.getElementById('selectGenero');
+                var options = sel.options;
+                for (var i=0; options.length; i++) {
+                    if (@Model.Genero === options[i].value)
+                        sel.selectedIndex = i;
+                }
+            </script>
         </div>
     </div>
 
-    <div class="form-group">
-        <label asp-for="Email" class="col-lg-2 control-label"></label>
-        <div class="col-lg-10">
-            <input asp-for="Email" value="@Model.Email" readonly class="form-control" type="text" >
+    @if (Model.RolSolicitado == "Estudiante") {
+        //Institucion y grupo
+        <div class="form-group">
+            <label class="col-lg-2 control-label"></label>
+            <div class="col-lg-10">
+                <input class="form-control" value="" type="text" />
+            </div>
         </div>
-    </div>
+    }
 
     <div class="form-group">
-        <label class="col-lg-2 control-label">Tipo de usuario</label>
+        <label asp-for="RolSolicitado" class="col-lg-2 control-label"></label>
         <div class="col-lg-10">
-            <input asp-for="RolSolicitado" class="form-control" type="text" value="@Model.RolSolicitado"/>
+            <select asp-for="RolSolicitado" id="selectRol" class="form-control">
+                <option value=""></option>
+                <option value="Estudiante">Estudiante</option>
+                <option value="Psicologo">Psicologo</option>
+                <option value="Administrador">Administrador</option>
+                <option value="Root">Root</option>
+            </select>
             <span asp-validation-for="RolSolicitado"></span>
+            <script>
+                var sel = document.getElementById('selectRol');
+                var options = sel.options;
+                for (var i=0; options.length; i++) {
+                    if (@Model.RolSolicitado === options[i].value)
+                        sel.selectedIndex = i;
+                }
+            </script>
         </div>
     </div>
 

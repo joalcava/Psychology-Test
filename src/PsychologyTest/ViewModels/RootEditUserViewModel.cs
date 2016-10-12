@@ -26,12 +26,13 @@ namespace PsychologyTest.ViewModels
 
         public string Direccion { get; set; }
 
+        [Display(Name = "Numero de telefono")]
         public string PhoneNumber { get; set; }
 
         public string Genero { get; set; }
 
-        //TODO: Implemetar diferente para el usuario
         [Required]
+        [Display(Name = "Rol")]
         public string RolSolicitado { get; set; }
     }
 }

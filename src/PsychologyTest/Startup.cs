@@ -87,7 +87,7 @@ namespace PsychologyTest
             {
                 config.CreateMap<ViewModels.RegisterViewModel, PsyTestUser>().ReverseMap();
                 config.CreateMap<ViewModels.RootEditUserViewModel, PsyTestUser>().ReverseMap();
-                config.CreateMap<ViewModels.RootRegisterViewModel, PsyTestUser>().ReverseMap();
+                config.CreateMap<ViewModels.RootCreateUserViewModel, PsyTestUser>().ReverseMap();
                 config.CreateMap<ViewModels.GrupoViewModel, Grupo>().ReverseMap();
                 config.CreateMap<ViewModels.InstitucionViewModel, Institucion>().ReverseMap();
                 config.CreateMap<DeletedUsers, PsyTestUser>().ReverseMap().IgnoreAllPropertiesWithAnInaccessibleSetter().IgnoreAllSourcePropertiesWithAnInaccessibleSetter();

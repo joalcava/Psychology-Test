@@ -69,7 +69,7 @@ namespace PsychologyTest.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser(RootRegisterViewModel vm)
+        public async Task<IActionResult> CreateUser(RootCreateUserViewModel vm)
         {
             if (ModelState.IsValid) {
                 var newUser = Mapper.Map<PsyTestUser>(vm);
