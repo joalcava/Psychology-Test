@@ -8,6 +8,6 @@ namespace PsychologyTest.Models
         public string Nombre { get; set; }
         public string Grado { get; set; }
         public string Jornada { get; set; }
-        public int NumeroEstudiantes { get; set; }
+        public Institucion Institucion { get; set; }
     }
 }

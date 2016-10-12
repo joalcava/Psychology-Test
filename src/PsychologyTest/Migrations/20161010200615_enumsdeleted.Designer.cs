@@ -8,9 +8,10 @@ using PsychologyTest.Models;
 namespace PsychologyTest.Migrations
 {
     [DbContext(typeof(PsyTestContext))]
-    partial class PsyTestContextModelSnapshot : ModelSnapshot
+    [Migration("20161010200615_enumsdeleted")]
+    partial class enumsdeleted
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -123,44 +124,6 @@ namespace PsychologyTest.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("PsychologyTest.Models.DeletedUsers", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("Activo");
-
-                    b.Property<string>("Apellidos");
-
-                    b.Property<string>("Direccion");
-
-                    b.Property<string>("DocId");
-
-                    b.Property<string>("Email");
-
-                    b.Property<bool>("EmailConfirmed");
-
-                    b.Property<DateTime>("FechaNacimiento");
-
-                    b.Property<DateTime>("FechaRegistro");
-
-                    b.Property<string>("Genero");
-
-                    b.Property<string>("Nombres");
-
-                    b.Property<string>("PhoneNumber");
-
-                    b.Property<string>("RolSolicitado");
-
-                    b.Property<string>("TipoDocId");
-
-                    b.Property<string>("UserName");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UsuariosViejos");
-                });
-
             modelBuilder.Entity("PsychologyTest.Models.Grupo", b =>
                 {
                     b.Property<int>("Id")
@@ -173,6 +136,8 @@ namespace PsychologyTest.Migrations
                     b.Property<string>("Jornada");
 
                     b.Property<string>("Nombre");
+
+                    b.Property<int>("NumeroEstudiantes");
 
                     b.HasKey("Id");
 
@@ -190,13 +155,11 @@ namespace PsychologyTest.Migrations
 
                     b.Property<string>("Direccion");
 
-                    b.Property<string>("Nit");
-
                     b.Property<string>("Nombre");
 
-                    b.Property<string>("SitioWeb");
-
                     b.Property<string>("Telefono");
+
+                    b.Property<string>("WebSite");
 
                     b.HasKey("Id");
 
@@ -224,6 +187,8 @@ namespace PsychologyTest.Migrations
                         .HasAnnotation("MaxLength", 256);
 
                     b.Property<bool>("EmailConfirmed");
+
+                    b.Property<DateTime>("FechaNacimiento");
 
                     b.Property<DateTime>("FechaRegistro");
 

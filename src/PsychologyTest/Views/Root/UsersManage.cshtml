@@ -1,0 +1,111 @@
+﻿@model IEnumerable<PsychologyTest.Models.PsyTestUser>
+
+@{
+    ViewData["Title"] = "Administrar usuarios";
+}
+
+@section UserActions{
+    <ul class="nav navbar-nav">
+        <li class="active"><a asp-area="" asp-controller="Root" asp-action="UsersManage">Usuarios</a> </li>
+        <li><a asp-area="" asp-controller="Admin" asp-action="InstitutionsManage">Instituciones</a></li>
+        <li><a asp-area="" asp-controller="Admin" asp-action="GroupsManage">Grupos</a></li>
+        <li><a asp-area="" asp-controller="Admin" asp-action="TestManage">Test</a></li>
+    </ul>
+}
+
+<div>
+    <div class="page-header">
+        <h1>Administracion de Usuarios</h1>
+    </div>
+    <div class="row">
+        <div class="col col-md-4 col-lg-3">
+            <div class="form-group">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Buscar" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">Ir</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col col-md-2 col-lg-1">
+            <a asp-area="" asp-controller="Root" asp-action="CreateUser" class="btn btn-success" >Agregar nuevo usuario</a>
+        </div>
+    </div>
+    
+    <hr/>
+
+    @if (ViewBag.ThereIsNoConfirmedUsers)
+    {
+        <div class="panel panel-warning">
+            <div class="panel-heading">Pendientes por confirmar</div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Rol deseado</th>
+                    <th>Correo</th>
+                    <th>Opciones</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                @foreach (var user in ViewBag.NoConfirmedUsers)
+                {
+                    <tr>
+                        <td>@user.Nombres</td>
+                        <td>@user.RolSolicitado</td>
+                        <td>@user.Email</td>
+                        <td>
+                            <div class="btn-group-sm">
+                                <a class="btn btn-success" asp-area="" asp-controller="Root" asp-action="ConfirmUser" asp-route-userName="@user.Email" data-toggle="tooltip" title="Aceptar">
+                                    <i class="fa fa-check"></i>
+                                </a>
+                                <a class="btn btn-danger" asp-area="" asp-controller="Root" asp-action="DenyUser" asp-route-userName="@user.Email" data-toggle="tooltip" title="Denegar">
+                                    <i class="fa fa-close"></i>
+                                </a>
+                            </div>
+                        </td>       
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+    
+    <hr/>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">Usuarios</div>
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Rol</th>
+                <th>Correo</th>
+                <th>Opciones</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            @foreach (var user in Model) {
+                <tr>
+                    <td>@user.Nombres</td>
+                    <td>@user.RolSolicitado</td>
+                    <td>@user.Email</td>
+                    <td>
+                        <div class="btn-group-sm">
+                            <a class="btn btn-info" asp-area="" asp-controller="Root" asp-action="EditUser" asp-route-userName="@user.Email" data-toggle="tooltip" title="Editar">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            <a class="btn btn-danger" asp-area="" asp-controller="Root" asp-action="DeleteUser" asp-route-userName="@user.Email" data-toggle="tooltip" title="Eliminar">
+                                <i class="fa fa-close"></i>
+                            </a>    
+                        </div>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

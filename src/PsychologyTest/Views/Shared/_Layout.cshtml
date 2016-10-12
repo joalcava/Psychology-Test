@@ -36,9 +36,9 @@
             </div>
             <div class="collapse navbar-collapse">
                     @if (User.Identity.IsAuthenticated) {
-                        @RenderSection("UserActions", required: true);
+                        @RenderSection("UserActions", required: false);
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a asp-area="" asp-controller="Auth" asp-action="UserPage">@User.Identity.</a></li>
+                            <li><a asp-area="" asp-controller="Manage" asp-action="Index">@User.Identity.Name</a></li>
                             <li><a asp-area="" asp-controller="Auth" asp-action="Logout">Logout</a></li>
                         </ul>
                     }
@@ -50,7 +50,7 @@
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li><a asp-area="" asp-controller="Auth" asp-action="Login">Acceder</a></li>
-                            <li><a asp-area="" asp-controller="Auth" asp-action="SignUp">Registrarse</a></li>
+                            <li><a asp-area="" asp-controller="Auth" asp-action="Register">Registrarse</a></li>
                         </ul>
                     }
             </div>

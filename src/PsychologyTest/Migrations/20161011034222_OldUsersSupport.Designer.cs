@@ -8,9 +8,10 @@ using PsychologyTest.Models;
 namespace PsychologyTest.Migrations
 {
     [DbContext(typeof(PsyTestContext))]
-    partial class PsyTestContextModelSnapshot : ModelSnapshot
+    [Migration("20161011034222_OldUsersSupport")]
+    partial class OldUsersSupport
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -174,6 +175,8 @@ namespace PsychologyTest.Migrations
 
                     b.Property<string>("Nombre");
 
+                    b.Property<int>("NumeroEstudiantes");
+
                     b.HasKey("Id");
 
                     b.HasIndex("InstitucionId");
@@ -190,13 +193,11 @@ namespace PsychologyTest.Migrations
 
                     b.Property<string>("Direccion");
 
-                    b.Property<string>("Nit");
-
                     b.Property<string>("Nombre");
 
-                    b.Property<string>("SitioWeb");
-
                     b.Property<string>("Telefono");
+
+                    b.Property<string>("WebSite");
 
                     b.HasKey("Id");
 
@@ -224,6 +225,8 @@ namespace PsychologyTest.Migrations
                         .HasAnnotation("MaxLength", 256);
 
                     b.Property<bool>("EmailConfirmed");
+
+                    b.Property<DateTime>("FechaNacimiento");
 
                     b.Property<DateTime>("FechaRegistro");
 

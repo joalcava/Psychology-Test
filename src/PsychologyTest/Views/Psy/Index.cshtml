@@ -1,0 +1,11 @@
+﻿@{
+    ViewData["Title"] = @User.Identity.Name + " inicio";
+}
+
+@section UserActions{
+    <ul class="nav navbar-nav">
+        <li><a asp-area="" asp-controller="Psy" asp-action="ViewTests">Ver Tests</a></li>
+        <li><a asp-area="" asp-controller="Psy" asp-action="AsignTests">Asignar Test</a></li>
+    </ul>
+}
+<h1>Psy</h1>

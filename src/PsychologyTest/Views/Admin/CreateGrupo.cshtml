@@ -1,0 +1,81 @@
+﻿@model PsychologyTest.ViewModels.GrupoViewModel
+
+@{
+    ViewData["Title"] = "Crear Grupo";
+}
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
+@section UserActions{
+    <ul class="nav navbar-nav">
+        @if (@ViewBag.UserRol == "Root")
+        {
+            <li><a asp-area="" asp-controller="Root" asp-action="UsersManage">Usuarios</a> </li>
+        }
+        <li><a asp-area="" asp-controller="Admin" asp-action="InstitutionsManage">Instituciones</a></li>
+        <li class="active"><a asp-area="" asp-controller="Admin" asp-action="GroupsManage">Grupos</a></li>
+        <li><a asp-area="" asp-controller="Admin" asp-action="TestManage">Test</a></li>
+    </ul>
+}
+
+<div>
+    <div class="page-header">
+        <h1>Crear Grupo</h1>
+    </div>
+    <form class="form-horizontal" method="post" novalidate>
+        <div asp-validation-summary="ModelOnly"></div>
+
+        <div class="form-group">
+            <label asp-for="Nombre" class="col-lg-2 control-label"></label>
+            <div class="col-lg-10">
+                <input asp-for="Nombre" class="form-control" type="text"/>
+                <span asp-validation-for="Nombre"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Grado" class="col-lg-2 control-label"></label>
+            <div class="col-lg-10">
+                <input asp-for="Grado" class="form-control" type="text"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Jornada" class="col-lg-2 control-label"></label>
+            <div class="col-lg-10">
+                <select asp-for="Jornada" class="form-control">
+                    <option></option>
+                    <option>Completa</option>
+                    <option>Dia</option>
+                    <option>Tarde</option>
+                    <option>Noche</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Inst" class="col-lg-2 control-label"></label>
+            <div class="col-lg-10">
+                <select asp-for="Inst" class="form-control">
+                    <option></option>
+                    @foreach (var i in ViewBag.Instituciones)
+                    {
+                        <option value="@i" >@i</option>
+                    }
+                </select>
+                <span asp-validation-for="Inst"></span>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-lg-10 col-lg-offset-2">
+                <a asp-controller="Home" asp-action="RedirectToRol" type="submit" class="btn btn-default">Volver</a>
+                <button class="btn btn-primary" type="submit">Enviar</button>
+            </div>
+        </div>
+
+    </form>
+</div>

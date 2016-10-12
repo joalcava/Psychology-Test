@@ -1,0 +1,99 @@
+﻿@model PsychologyTest.ViewModels.RootEditUserViewModel
+@{
+    ViewBag.Title = "Registrarse";
+}
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
+@section UserActions{
+    <ul class="nav navbar-nav">
+        <li class="active"><a asp-area="" asp-controller="Root" asp-action="UsersManage">Usuarios</a> </li>
+        <li><a asp-area="" asp-controller="Admin" asp-action="InstitutionsManage">Instituciones</a></li>
+        <li><a asp-area="" asp-controller="Admin" asp-action="GroupsManage">Grupos</a></li>
+        <li><a asp-area="" asp-controller="Admin" asp-action="TestManage">Test</a></li>
+    </ul>
+}
+
+<form class="form-horizontal" method="post" novalidate>
+    <div asp-validation-summary="ModelOnly"></div>
+
+    <h2>Editar cuenta</h2>
+
+    <div class="form-group">
+        <label asp-for="Nombres" class="col-lg-2 control-label"></label>
+        <div class="col-lg-10">
+            <input asp-for="Nombres" class="form-control" type="text" value="@Model.Nombres" con autocomplete="off">
+            <span asp-validation-for="Nombres"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Apellidos" class="col-lg-2 control-label"></label>
+        <div class="col-lg-10">
+            <input asp-for="Apellidos" class="form-control" type="text" value="@Model.Apellidos" autocomplete="off">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TipoDocId" class="col-lg-2 control-label"></label>
+        <div class="col-lg-10">
+            <input asp-for="TipoDocId" class="form-control" type="text" value="@Model.TipoDocId" />
+            <span asp-validation-for="TipoDocId"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DocId" class="col-lg-2 control-label"></label>
+        <div class="col-lg-10">
+            <input asp-for="DocId" class="form-control" value="@Model.DocId" type="text" autocomplete="off">
+            <span asp-validation-for="DocId"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Genero" class="col-lg-2 control-label"></label>
+        <div class="col-lg-10">
+            <input asp-for="Genero" class="form-control" value="@Model.Genero" type="text" />
+            <span asp-validation-for="Genero"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Direccion" class="col-lg-2 control-label"></label>
+        <div class="col-lg-10">
+            <input asp-for="Direccion" class="form-control" value="@Model.Direccion" type="text" autocomplete="off">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PhoneNumber" class="col-lg-2 control-label"></label>
+        <div class="col-lg-10">
+            <input asp-for="PhoneNumber" class="form-control" value="@Model.PhoneNumber" type="text" autocomplete="off">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email" class="col-lg-2 control-label"></label>
+        <div class="col-lg-10">
+            <input disabled="" asp-for="Email" class="form-control" type="email" placeholder="user@email.com" autocomplete="off">
+            <span asp-validation-for="Email"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label">Tipo de usuario</label>
+        <div class="col-lg-10">
+            <input asp-for="RolSolicitado" class="form-control" type="text" value="@Model.RolSolicitado"/>
+            <span asp-validation-for="RolSolicitado"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-10 col-lg-offset-2">
+            <a asp-controller="Root" asp-action="UsersManage" type="submit" class="btn btn-default">Volver</a>
+            <button class="btn btn-primary" type="submit">Enviar</button>
+        </div>
+    </div>
+</form>

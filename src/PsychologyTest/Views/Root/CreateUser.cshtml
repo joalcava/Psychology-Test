@@ -1,0 +1,148 @@
+﻿@model PsychologyTest.ViewModels.RootRegisterViewModel
+
+@{
+    ViewData["Title"] = "Crear usuarios";
+}
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
+@section UserActions{
+    <ul class="nav navbar-nav">
+        <li class="active"><a asp-area="" asp-controller="Root" asp-action="UsersManage">Usuarios</a> </li>
+        <li><a asp-area="" asp-controller="Admin" asp-action="InstitutionsManage">Instituciones</a></li>
+        <li><a asp-area="" asp-controller="Admin" asp-action="GroupsManage">Grupos</a></li>
+        <li><a asp-area="" asp-controller="Admin" asp-action="TestManage">Test</a></li>
+    </ul>
+}
+
+<form class="form-horizontal" method="post" novalidate>
+    <div asp-validation-summary="ModelOnly"></div>
+
+    <h2>Crear una cuenta</h2>
+    
+    @try { 
+        if (ViewBag.userCreated)
+        {
+            <div class="alert alert-dismissible alert-success">
+                <button class="close" type="button" data-dismiss="alert">&times;</button>
+                <p><strong>Listo!</strong> Se creo el usuario correctamente.</p>
+            </div>
+        }
+    }
+    catch { }
+
+    <div class="form-group">
+        <label asp-for="Nombres" class="col-lg-2 control-label"></label>
+        <div class="col-lg-10">
+            <input asp-for="Nombres" class="form-control" id="inputName" type="text" placeholder="Jose Alejandro" autocomplete="off">
+            <span asp-validation-for="Nombres"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Apellidos" class="col-lg-2 control-label"></label>
+        <div class="col-lg-10">
+            <input asp-for="Apellidos" class="form-control" id="inputLastName" type="text" placeholder="Cardona Valdes" autocomplete="off">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email" class="col-lg-2 control-label"></label>
+        <div class="col-lg-10">
+            <input asp-for="Email" class="form-control" type="email" placeholder="user@email.com" autocomplete="off">
+            <span asp-validation-for="Email"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Password" class="col-lg-2 control-label"></label>
+        <div class="col-lg-10">
+            <input asp-for="Password" class="form-control lastpassClearHidden" type="password" placeholder="Contraseña" autocomplete="off">
+            <span asp-validation-for="Password"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label">Confirmar contraseña</label>
+        <div class="col-lg-10">
+            <input asp-for="ConfirmPassword" class="form-control lastpassClearHidden" type="password" placeholder="Confirmar contraseña" autocomplete="off">
+            <span asp-validation-for="ConfirmPassword"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TipoDocId" class="col-lg-2 control-label"></label>
+        <div class="col-lg-10">
+            <select asp-for="TipoDocId" class="form-control">
+                <option>Cedula</option>
+                <option>Tarjeta de identidad</option>
+                <option>Registro Civil</option>
+                <option>Cedula extranjera</option>
+                <option>Pasaporte</option>
+            </select>
+            <span asp-validation-for="TipoDocId"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DocId" class="col-lg-2 control-label"></label>
+        <div class="col-lg-10">
+            <input asp-for="DocId" class="form-control" id="inputIdNumber" type="text" autocomplete="off">
+            <span asp-validation-for="DocId"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Direccion" class="col-lg-2 control-label"></label>
+        <div class="col-lg-10">
+            <input asp-for="Direccion" class="form-control" id="inputDireccion" type="text" autocomplete="off">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PhoneNumber" class="col-lg-2 control-label"></label>
+        <div class="col-lg-10">
+            <input asp-for="PhoneNumber" class="form-control" id="inputTelefono" type="text" autocomplete="off">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Genero" class="col-lg-2 control-label"></label>
+        <div class="col-lg-10">
+            <select asp-for="Genero" class="form-control" id="selectGenero">
+                <option>Masculino</option>
+                <option>Femenino</option>
+                <option>Otro</option>
+            </select>
+            <span asp-validation-for="Genero"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label">Tipo de usuario</label>
+        <div class="col-lg-10">
+            <select asp-for="RolSolicitado" class="form-control" id="selectRol">
+                <option>Estudiante</option>
+                <option>Psicologo</option>
+                <option>Administrador</option>
+                <option>Root</option>
+            </select>
+            <div class="checkbox">
+                <label>
+                    <input asp-for="EmailConfirmed" type="checkbox">Confirmar rol de usuario?
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-10 col-lg-offset-2">
+            <a asp-controller="Home" asp-action="RedirectToRol" type="submit" class="btn btn-default">Volver</a>
+            <button class="btn btn-primary" type="submit">Enviar</button>
+        </div>
+    </div>
+</form>
+

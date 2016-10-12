@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -65,8 +62,18 @@ namespace PsychologyTest
             .AddDefaultTokenProviders();
 
             services.AddDbContext<PsyTestContext>();
+            services.AddScoped<IPsyTestRepository, PsyTestRepository>();
             services.AddTransient<PsyTestSeedData>();
             services.AddLogging();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("EmailConfirmedPolicy", policy =>
+                {
+                    policy.RequireClaim("emailconfirmation", "1");
+                });
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,6 +82,15 @@ namespace PsychologyTest
             PsyTestSeedData seeder,
             ILoggerFactory loggerFactory)
         {
+            Mapper.Initialize(config =>
+            {
+                config.CreateMap<ViewModels.RegisterViewModel, PsyTestUser>().ReverseMap();
+                config.CreateMap<ViewModels.RootEditUserViewModel, PsyTestUser>().ReverseMap();
+                config.CreateMap<ViewModels.RootRegisterViewModel, PsyTestUser>().ReverseMap();
+                config.CreateMap<ViewModels.GrupoViewModel, Grupo>().ReverseMap();
+                config.CreateMap<ViewModels.InstitucionViewModel, Institucion>().ReverseMap();
+                config.CreateMap<DeletedUsers, PsyTestUser>().ReverseMap().IgnoreAllPropertiesWithAnInaccessibleSetter().IgnoreAllSourcePropertiesWithAnInaccessibleSetter();
+            });
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
 
             app.UseStaticFiles();

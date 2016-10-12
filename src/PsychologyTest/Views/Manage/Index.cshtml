@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = $"Gestionar {@User.Identity.Name}";
+}
+
+@section UserActions{
+    <ul class="nav navbar-nav"></ul>
+}
+
+@if (ViewBag.Confirmed)
+{
+    <h1>Bienvenido @ViewData["UserName"]</h1>
+}
+else
+{
+    <h1>Aun no autorizado</h1>
+    <p>Hola @ViewData["UserName"], aun necesita ser autorizado por un administrador antes de utilizar esta pagina</p>
+}

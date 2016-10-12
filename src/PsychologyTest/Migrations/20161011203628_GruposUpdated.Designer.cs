@@ -8,9 +8,10 @@ using PsychologyTest.Models;
 namespace PsychologyTest.Migrations
 {
     [DbContext(typeof(PsyTestContext))]
-    partial class PsyTestContextModelSnapshot : ModelSnapshot
+    [Migration("20161011203628_GruposUpdated")]
+    partial class GruposUpdated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -309,7 +310,7 @@ namespace PsychologyTest.Migrations
 
             modelBuilder.Entity("PsychologyTest.Models.Grupo", b =>
                 {
-                    b.HasOne("PsychologyTest.Models.Institucion")
+                    b.HasOne("PsychologyTest.Models.Institucion", "Institucion")
                         .WithMany("Grupos")
                         .HasForeignKey("InstitucionId");
                 });

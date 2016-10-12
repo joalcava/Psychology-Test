@@ -1,0 +1,73 @@
+﻿@model IEnumerable<PsychologyTest.Models.Institucion>
+
+@{
+    ViewData["Title"] = "Administrar Instituciones";
+}
+
+@section UserActions{
+    <ul class="nav navbar-nav">
+        @if (@ViewBag.UserRol == "Root") {
+            <li><a asp-area="" asp-controller="Root" asp-action="UsersManage">Usuarios</a> </li>
+        }
+        <li class="active"><a asp-area="" asp-controller="Admin" asp-action="InstitutionsManage">Instituciones</a></li>
+        <li><a asp-area="" asp-controller="Admin" asp-action="GroupsManage">Grupos</a></li>
+        <li><a asp-area="" asp-controller="Admin" asp-action="TestManage">Test</a></li>
+    </ul>
+}
+
+<div>
+    
+    <div class="page-header">
+        <h1>Administracion de Instituciones</h1>
+    </div>
+
+    <div class="row">
+        <div class="col col-md-4 col-lg-3">
+            <div class="form-group">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Buscar"/>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">Ir</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col col-md-2 col-lg-1">
+            <a asp-area="" asp-controller="Admin" asp-action="CreateInstitucion" class="btn btn-success">Agregar nueva institucion</a>
+        </div>
+    </div>
+
+    <hr/>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">Instituciones</div>
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>Nit</th>
+                <th>Nombre</th>
+                <th>Telefono</th>
+                <th>Ciudad</th>
+                <th>Grupos</th>
+                <th>Sitio web</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            @foreach (var inst in Model) {
+                <tr>
+                    <td>@inst.Nit</td>
+                    <td>@inst.Nombre</td>
+                    <td>@inst.Telefono</td>
+                    <td>@inst.Ciudad</td>
+                    <td>@inst.Grupos.Count</td>
+                    <td>@inst.SitioWeb</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    
+
+
+</div>

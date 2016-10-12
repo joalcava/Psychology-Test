@@ -17,14 +17,14 @@
 
                 <div class="form-group">
                     <input asp-for="Username" class="form-control lastpassClearHidden" id="inputEmail" type="email" placeholder="Email" autocomplete="off">
-                    <span asp-validation-for="Username"></span>
+                    <span  asp-validation-for="Username"></span>
                 </div>
                 <div class="form-group">
                     <input asp-for="Password" class="form-control lastpassClearHidden" id="inputPassword" type="password" placeholder="Password" autocomplete="off">
                     <span asp-validation-for="Password"></span>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox"> Recordarme
+                            <input asp-for="RememberMe" type="checkbox"> Recuerdame
                         </label>
                     </div>
                 </div>

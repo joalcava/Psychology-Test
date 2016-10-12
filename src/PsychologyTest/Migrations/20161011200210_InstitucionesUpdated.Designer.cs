@@ -8,9 +8,10 @@ using PsychologyTest.Models;
 namespace PsychologyTest.Migrations
 {
     [DbContext(typeof(PsyTestContext))]
-    partial class PsyTestContextModelSnapshot : ModelSnapshot
+    [Migration("20161011200210_InstitucionesUpdated")]
+    partial class InstitucionesUpdated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
