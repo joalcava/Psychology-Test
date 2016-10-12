@@ -30,6 +30,7 @@ namespace PsychologyTest.ViewModels
 
         public string Genero { get; set; }
 
+        //TODO: Implemetar diferente para el usuario
         [Required]
         public string RolSolicitado { get; set; }
     }

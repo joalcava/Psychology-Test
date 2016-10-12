@@ -82,6 +82,7 @@ namespace PsychologyTest
             PsyTestSeedData seeder,
             ILoggerFactory loggerFactory)
         {
+            //TODO: Crear mi propio mapper
             Mapper.Initialize(config =>
             {
                 config.CreateMap<ViewModels.RegisterViewModel, PsyTestUser>().ReverseMap();

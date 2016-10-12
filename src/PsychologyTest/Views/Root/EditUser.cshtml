@@ -77,8 +77,7 @@
     <div class="form-group">
         <label asp-for="Email" class="col-lg-2 control-label"></label>
         <div class="col-lg-10">
-            <input disabled="" asp-for="Email" class="form-control" type="email" placeholder="user@email.com" autocomplete="off">
-            <span asp-validation-for="Email"></span>
+            <input asp-for="Email" value="@Model.Email" readonly class="form-control" type="text" >
         </div>
     </div>
 

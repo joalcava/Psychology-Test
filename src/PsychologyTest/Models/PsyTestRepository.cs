@@ -71,7 +71,15 @@ namespace PsychologyTest.Models
         {
             var user = _context.Users.First(u => u.Email == email);
             _context.Update<PsyTestUser>(user);
-            user = Mapper.Map<PsyTestUser>(newData);
+            user.Nombres = newData.Nombres;
+            user.Apellidos = newData.Apellidos;
+            user.TipoDocId = newData.TipoDocId;
+            user.DocId = newData.DocId;
+            user.Direccion = newData.Direccion;
+            user.PhoneNumber = newData.PhoneNumber;
+            user.Genero = newData.Genero;
+            //TODO: Cambiar de rol realmente
+            user.RolSolicitado = newData.RolSolicitado;
             _context.SaveChanges();
         }
 

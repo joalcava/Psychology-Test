@@ -81,6 +81,8 @@ namespace PsychologyTest.Models
                 }
             }
 
+            //TODO: Poblar instituciones y grupos
+
             await _context.SaveChangesAsync();
         }
     }

@@ -57,6 +57,16 @@
                     <td>@grupo.Grado</td>
                     <td>@grupo.Jornada</td>
                     <td>@grupo.Institucion.Nombre</td>
+                    <td>
+                        <div class="btn-group-sm">
+                            <a class="btn btn-info" asp-area="" asp-controller="Admin" asp-action="EditGrupo" asp-route-userName="@grupo.Id" data-toggle="tooltip" title="Editar">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            <a class="btn btn-danger" asp-area="" asp-controller="Admin" asp-action="DeleteGrupo" asp-route-userName="@grupo.Id" data-toggle="tooltip" title="Eliminar">
+                                <i class="fa fa-close"></i>
+                            </a>
+                        </div>
+                    </td>
                 </tr>
             }
             </tbody>

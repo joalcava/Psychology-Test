@@ -109,6 +109,8 @@ namespace PsychologyTest.Controllers
             return RedirectToAction("UsersManage", "Root");
         }
 
+
+
         public async Task<IActionResult> EditUser(string userName)
         {
             var model = await _userManager.FindByNameAsync(userName);
