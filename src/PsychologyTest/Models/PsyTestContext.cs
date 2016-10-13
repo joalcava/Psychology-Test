@@ -24,7 +24,6 @@ namespace PsychologyTest.Models
         {
             base.OnConfiguring(optionsBuilder);
             optionsBuilder.UseSqlServer(config["ConnectionStrings:PsyTestContextConnection"]);
-
         }
     }
 }

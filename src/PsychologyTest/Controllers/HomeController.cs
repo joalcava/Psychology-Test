@@ -19,8 +19,9 @@ namespace PsychologyTest.Controllers
 
         #region Actions
         [Authorize]
-        public async Task<IActionResult> RedirectToRol(PsyTestUser user)
+        public async Task<IActionResult> RedirectToRol()
         {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
             if (await _userManager.IsEmailConfirmedAsync(user))
             {
                 if (await _userManager.IsInRoleAsync(user, "Stud"))

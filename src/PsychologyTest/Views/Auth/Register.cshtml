@@ -114,42 +114,38 @@
             </div>
         </div>
 
-    <div id="divInstitucion" class="form-group">
-        <label class="col-lg-2 control-label">Seleccione una institucion</label>
-        <div class="col-lg-10">
-            <select asp-for="InstitucionSolicitada" class="form-control" id="selectInstitucion" onchange="">
-                <option></option>
-                @foreach (var inst in Model.Instituciones) {
-                    <option value="@inst.Nombre">@inst.Nombre</option>
-                }
-            </select>
+        <div id="divInstitucion" class="form-group" style="display: none">
+            <label class="col-lg-2 control-label">Seleccione una institucion</label>
+            <div class="col-lg-10">
+                <select asp-for="InstitucionSolicitada" class="form-control" id="selectInstitucion" onchange="">
+                    <option></option>
+                    @try {
+                        foreach (var inst in Model.Instituciones) {
+                            <option value="@inst.Nombre">@inst.Nombre</option>
+                        }
+                    }
+                    catch (NullReferenceException) {}
+                </select>
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <div class="col-lg-10 col-lg-offset-2">
-            <a asp-controller="Auth" asp-action="SignUpCancel" type="submit" class="btn btn-default">Volver</a>
-            <button class="btn btn-primary" type="submit">Enviar</button>
+        <div class="form-group">
+            <div class="col-lg-10 col-lg-offset-2">
+                <a asp-controller="Auth" asp-action="SignUpCancel" class="btn btn-default">Volver</a>
+                <button class="btn btn-primary" type="submit">Enviar</button>
+            </div>
         </div>
-    </div>
 
-    <script>
-        function rolCambio() {
-            var sel = document.getElementById("selectRol");
-            var option = sel.options[sel.selectedIndex].value;
-            if (option === "Estudiante") {
-                document.getElementById("divInstitucion").style.display = 'block';
-            }
-            else {
-                document.getElementById("divInstitucion").style.display = 'none';
-            }
-        };
-    </script>
+        <script>
+            function rolCambio() {
+                var sel = document.getElementById("selectRol");
+                var option = sel.options[sel.selectedIndex].value;
+                if (option === "Estudiante")
+                    document.getElementById("divInstitucion").style.display = 'block';
+                else
+                    document.getElementById("divInstitucion").style.display = 'none';
+            };
+        </script>
 
-
-
-</form>
-
-
-
+    </form>
 </div>

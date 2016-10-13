@@ -33,6 +33,7 @@ namespace PsychologyTest.Controllers
         #endregion
 
         #region Actions
+        [HttpGet]
         [AllowAnonymous]
         public IActionResult Register()
         {
@@ -83,6 +84,7 @@ namespace PsychologyTest.Controllers
                 var user = _userManager.FindByNameAsync(User.Identity.Name);
                 return RedirectToAction("RedirectToRol", "Home", user);
             }
+            ViewBag.IntentoFallido = false;
             return View();
         }
 
@@ -92,17 +94,19 @@ namespace PsychologyTest.Controllers
         {
             if (ModelState.IsValid)
             {
-                var signInResult = await _signInManager
+                ViewBag.IntentoFallido = false;
+                var loginResult = await _signInManager
                     .PasswordSignInAsync(vm.Username, vm.Password, vm.RememberMe, false);
 
-                if (signInResult.Succeeded) {
+                if (loginResult.Succeeded) {
                     var user = await _userManager.FindByNameAsync(vm.Username);
                     return RedirectToAction("RedirectToRol", "Home", user);
                 }
                 else {
-                    ModelState.AddModelError("", "Contraseña o Email incorrectos");
+                    ModelState.AddModelError(string.Empty, "Contraseña o Email incorrectos");
                 }
             }
+            ViewBag.IntentoFallido = true;
             return View();
         }
 
@@ -117,13 +121,84 @@ namespace PsychologyTest.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult ForgotPassword()
+        [HttpGet]
+        public IActionResult ForgotPassword(string success)
         {
             if (User.Identity.IsAuthenticated)
             {
                 var user = _userManager.FindByNameAsync(User.Identity.Name);
-                return RedirectToAction("RedirectToRol", "Home", user);
+                return RedirectToAction("RedirectToRol", "Home");
             }
+            ViewBag.Success = false;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(ViewModels.AuthViewModels.ForgotPasswordViewModel vm){
+            // Si ya esta logueado, se redirecciona al index de su rol;
+            if (User.Identity.IsAuthenticated)
+                return RedirectToAction("RedirectToRol", "Home");
+
+            if (ModelState.IsValid){
+                var user = await _userManager.FindByNameAsync(vm.Email);
+                try{
+                    if (await _userManager.IsEmailConfirmedAsync(user)){
+                        //TODO: IMPLEMENTAR SERVICIO DE EMAIL
+                        //var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                        //var callbackUrl = Url.Action("ResetPassword", "Auth", new {userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                        //await _emailSender.SendEmailAsync(vm.Email, "Reset Password",
+                            //$"Para reiniciar su contraseña haga click aqui: <a href='{callbackUrl}'>link</a>");
+                        vm.Email = string.Empty;
+                        ViewBag.Success = true;
+                        return View();
+                    }
+                }
+                catch(ArgumentNullException) {
+                    ModelState.AddModelError(string.Empty, "No se encontro a nadie registrado con ese correo o aun no a sido activado");
+                }   
+            }
+            ViewBag.Success = false;
+            return View(vm);
+        }
+
+        // GET: /Auth/ResetPassword
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ResetPassword(string code = null)
+        {
+            if (code == null) {
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+
+        // POST: /Auth/ResetPassword
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ViewModels.AuthViewModels.ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid) {
+                return View(model);
+            }
+            var user = await _userManager.FindByNameAsync(model.Email);
+            if (user == null) {
+                return RedirectToAction("ResetPasswordConfirmation", "Auth");
+            }
+            var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
+            if (result.Succeeded) {
+                return RedirectToAction("ResetPasswordConfirmation", "Auth");
+            }
+            foreach (var err in result.Errors) {
+                ModelState.AddModelError(string.Empty, err.Description);
+            }
+            return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ResetPasswordConfirmation()
+        {
             return View();
         }
         #endregion
