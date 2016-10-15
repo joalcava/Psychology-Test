@@ -6,8 +6,7 @@
 
 @section UserActions{
     <ul class="nav navbar-nav">
-        @if (@ViewBag.UserRol == "Root")
-        {
+        @if (@ViewBag.UserRol == "Root") {
             <li><a asp-area="" asp-controller="Root" asp-action="UsersManage">Usuarios</a> </li>
         }
         <li><a asp-area="" asp-controller="Admin" asp-action="InstitutionsManage">Instituciones</a></li>
@@ -59,10 +58,10 @@
                     <td>@grupo.Institucion.Nombre</td>
                     <td>
                         <div class="btn-group-sm">
-                            <a class="btn btn-info" asp-area="" asp-controller="Admin" asp-action="EditGrupo" asp-route-userName="@grupo.Id" data-toggle="tooltip" title="Editar">
+                            <a class="btn btn-info" asp-area="" asp-controller="Admin" asp-action="EditGrupo" asp-route-grupoId="@grupo.Id" data-toggle="tooltip" title="Editar">
                                 <i class="fa fa-edit"></i>
                             </a>
-                            <a class="btn btn-danger" asp-area="" asp-controller="Admin" asp-action="DeleteGrupo" asp-route-userName="@grupo.Id" data-toggle="tooltip" title="Eliminar">
+                            <a class="btn btn-danger" asp-area="" asp-controller="Admin" asp-action="DeleteGrupo" asp-route-grupoId="@grupo.Id" data-toggle="tooltip" title="Eliminar">
                                 <i class="fa fa-close"></i>
                             </a>
                         </div>

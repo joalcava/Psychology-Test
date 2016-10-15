@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -67,10 +68,16 @@ namespace PsychologyTest.Controllers
             if (ModelState.IsValid) {
                 bool result = _repository.AddGrupo(vm);
                 if (result) {
-                    return View();
+                    vm.Success = true;
+                    vm.Inst = "";
+                    vm.Jornada = "";
+                    vm.Grado = "";
+                    vm.Nombre = "";
+                    return View(vm);
                 }
                 ModelState.AddModelError("", "No se pudo crear el grupo");
             }
+            vm.Success = false;
             return View(vm);
         }
 
@@ -88,23 +95,28 @@ namespace PsychologyTest.Controllers
             if (ModelState.IsValid) {
                 bool result = _repository.AddInstitucion(Mapper.Map<Institucion>(vm));
                 if (result) {
-                    return View();
+                    ViewData["Success"] = true;
+                    return RedirectToAction("CreateInstitucion", "Admin");
                 }
                 ModelState.AddModelError("", "No se pudo crear la institucion");
             }
+            ViewData["Success"] = false;
             return View(vm);
         }
 
         [HttpGet]
-        public IActionResult EditGrupo()
+        public IActionResult EditGrupo(string grupoId)
         {
             ViewBag.UserRol = User.IsInRole("Root") ? "Root" : "Admin";
-            return View();
+            Grupo model = _repository.GetGrupoById(Convert.ToInt32(grupoId));
+            var viewModel = Mapper.Map<GrupoViewModel>(model);
+            return View(viewModel);
         }
 
         [HttpPost]
         public IActionResult EditGrupo(GrupoViewModel vm)
         {
+            // TODO: Implementar vista y controlador
             ViewBag.UserRol = User.IsInRole("Root") ? "Root" : "Admin";
             ViewBag.Instituciones = _repository.GetAllInstitucionNames();
             if (ModelState.IsValid)
@@ -115,15 +127,18 @@ namespace PsychologyTest.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditInstitucion()
+        public IActionResult EditInstitucion(string instId)
         {
             ViewBag.UserRol = User.IsInRole("Root") ? "Root" : "Admin";
-            return View();
+            Institucion model = _repository.GetInstitucionById(Convert.ToInt32(instId));
+            var viewModel = Mapper.Map<InstitucionViewModel>(model);
+            return View(viewModel);
         }
 
         [HttpPost]
         public IActionResult EditInstitucion(InstitucionViewModel vm)
         {
+            // TODO: Implementar vista y controlador
             ViewBag.UserRol = User.IsInRole("Root") ? "Root" : "Admin";
             if (ModelState.IsValid)
             {
@@ -131,6 +146,27 @@ namespace PsychologyTest.Controllers
             }
             return View(vm);
         }
+
+        [HttpGet]
+        public IActionResult DeleteGrupo(string grupoId)
+        {
+            bool result = _repository.DeleteGrupo(grupoId);
+            if (result)
+                return RedirectToAction("GroupsManage", "Admin");
+            // TODO: Mostrar un mensaje de error en la vista
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        public IActionResult DeleteInstitucion(string instId)
+        {
+            bool result = _repository.DeleteInstitucion(instId);
+            if (result)
+                return RedirectToAction("InstitutionsManage", "Admin");
+            // TODO: Mostrar un mensaje de error en la vista
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

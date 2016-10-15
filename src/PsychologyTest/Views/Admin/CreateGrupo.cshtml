@@ -25,13 +25,23 @@
     <div class="page-header">
         <h1>Crear Grupo</h1>
     </div>
-    <form class="form-horizontal" method="post" novalidate>
+    @try {
+        if (@Model.Success) {
+            <div class="alert alert-dismissible alert-success">
+                <button class="close" type="button" data-dismiss="alert">&times;</button>
+                El grupo se creo correctamente.
+            </div>
+        }
+    }
+    catch (NullReferenceException) {}
+
+    <form class="form-horizontal" id="NuevoGrupoForm" name="NuevoGrupoForm" method="post" novalidate>
         <div asp-validation-summary="ModelOnly"></div>
 
         <div class="form-group">
             <label asp-for="Nombre" class="col-lg-2 control-label"></label>
             <div class="col-lg-10">
-                <input asp-for="Nombre" class="form-control" type="text"/>
+                <input asp-for="Nombre" class="form-control" id="nombre" type="text" />
                 <span asp-validation-for="Nombre"></span>
             </div>
         </div>
@@ -39,7 +49,7 @@
         <div class="form-group">
             <label asp-for="Grado" class="col-lg-2 control-label"></label>
             <div class="col-lg-10">
-                <input asp-for="Grado" class="form-control" type="text"/>
+                <input asp-for="Grado" class="form-control" type="text" />
             </div>
         </div>
 
@@ -63,19 +73,18 @@
                     <option></option>
                     @foreach (var i in ViewBag.Instituciones)
                     {
-                        <option value="@i" >@i</option>
+                        <option value="@i">@i</option>
                     }
                 </select>
                 <span asp-validation-for="Inst"></span>
             </div>
         </div>
-        
+
         <div class="form-group">
             <div class="col-lg-10 col-lg-offset-2">
-                <a asp-controller="Home" asp-action="RedirectToRol" type="submit" class="btn btn-default">Volver</a>
+                <a asp-controller="Admin" asp-action="GroupsManage" class="btn btn-default">Volver</a>
                 <button class="btn btn-primary" type="submit">Enviar</button>
             </div>
         </div>
-
     </form>
 </div>

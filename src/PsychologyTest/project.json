@@ -28,7 +28,8 @@
       "type": "build"
     },
     "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0",
-    "AutoMapper": "5.1.1"
+    "AutoMapper": "5.1.1",
+    "Microsoft.ApplicationInsights.AspNetCore": "1.0.0"
   },
 
   "tools": {

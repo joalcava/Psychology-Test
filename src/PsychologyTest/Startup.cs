@@ -35,9 +35,9 @@ namespace PsychologyTest
 
             services.AddMvc(config =>
             {
-                //if (_env.IsProduction()) {
-                //    config.Filters.Add(new RequireHttpsAttribute());
-                //}
+                if (_env.IsProduction()) {
+                    config.Filters.Add(new RequireHttpsAttribute());
+                }
             }).AddJsonOptions(config =>
             {
                 config.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -113,7 +113,7 @@ namespace PsychologyTest
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            //seeder.SeedDataTask().Wait();
+            seeder.SeedDataTask().Wait();
         }
     }
 }

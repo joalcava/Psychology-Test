@@ -14,5 +14,7 @@ namespace PsychologyTest.ViewModels
 
         [Display(Name = "Institucion")]
         public string Inst { get; set; }
+
+        public bool Success { get; set; } = false;
     }
 }

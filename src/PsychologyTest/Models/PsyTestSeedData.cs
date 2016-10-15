@@ -56,7 +56,8 @@ namespace PsychologyTest.Models
                 var userRoot = new PsyTestUser() {
                     UserName = "su@root.com",
                     Email = "su@root.com",
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    Activo = true
                 };
                 var resultRoot = await _userManager.CreateAsync(userRoot, "Root123456");
                 if (resultRoot.Succeeded) {
@@ -69,7 +70,8 @@ namespace PsychologyTest.Models
                 var userAdmin = new PsyTestUser() {
                     UserName = "sys@admin.com",
                     Email = "sys@admin.com",
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    Activo = true
                 };
                 var resultAdmin = await _userManager.CreateAsync(userAdmin, "Admin123456");
                 if (resultAdmin.Succeeded) {

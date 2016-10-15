@@ -25,61 +25,73 @@
     <div class="page-header">
         <h1>Crear Institucion</h1>
     </div>
+    @try {
+        if ((bool)ViewData["Success"]) {
+            <div class="alert alert-dismissible alert-success">
+                <button class="close" type="button" data-dismiss="alert">&times;</button>
+                La institucion se creo correctamente.
+            </div>
+        }
+    }
+    catch(NullReferenceException) { }
+
     <form class="form-horizontal" method="post" novalidate>
         <div asp-validation-summary="ModelOnly"></div>
-        
+
         <div class="form-group">
             <label asp-for="Nit" class="col-lg-2 control-label"></label>
             <div class="col-lg-10">
-                <input asp-for="Nit" class="form-control" type="text"/>
+                <input asp-for="Nit" class="form-control" type="text" />
                 <span asp-validation-for="Nit"></span>
             </div>
         </div>
-        
+
         <div class="form-group">
             <label asp-for="Nombre" class="col-lg-2 control-label"></label>
             <div class="col-lg-10">
-                <input asp-for="Nombre" class="form-control" type="text"/>
+                <input asp-for="Nombre" class="form-control" type="text" />
                 <span asp-validation-for="Nombre"></span>
             </div>
         </div>
-        
+
         <div class="form-group">
             <label asp-for="Direccion" class="col-lg-2 control-label"></label>
             <div class="col-lg-10">
                 <input asp-for="Direccion" class="form-control" type="text" />
             </div>
         </div>
-        
+
         <div class="form-group">
             <label asp-for="Telefono" class="col-lg-2 control-label"></label>
             <div class="col-lg-10">
-                <input asp-for="Telefono" class="form-control" type="text"/>
+                <input asp-for="Telefono" class="form-control" type="text" />
                 <span asp-validation-for="Telefono"></span>
             </div>
         </div>
-        
+
         <div class="form-group">
             <label asp-for="Ciudad" class="col-lg-2 control-label"></label>
             <div class="col-lg-10">
-                <input asp-for="Ciudad" class="form-control" type="text"/>
+                <input asp-for="Ciudad" class="form-control" type="text" />
                 <span asp-validation-for="Ciudad"></span>
             </div>
         </div>
-        
+
         <div class="form-group">
             <label asp-for="SitioWeb" class="col-lg-2 control-label"></label>
             <div class="col-lg-10">
-                <input asp-for="SitioWeb" class="form-control" type="text"/>
+                <input asp-for="SitioWeb" class="form-control" type="text" />
             </div>
         </div>
-        
+
         <div class="form-group">
             <div class="col-lg-10 col-lg-offset-2">
-                <a asp-controller="Home" asp-action="RedirectToRol" type="submit" class="btn btn-default">Volver</a>
+                <a asp-controller="Admin" asp-action="InstitutionsManage" class="btn btn-default">Volver</a>
                 <button class="btn btn-primary" type="submit">Enviar</button>
             </div>
         </div>
+
+
 
     </form>
 </div>

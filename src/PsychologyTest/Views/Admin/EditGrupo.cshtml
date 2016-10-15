@@ -1,4 +1,6 @@
-﻿@section UserActions{
+﻿@model PsychologyTest.ViewModels.GrupoViewModel
+
+@section UserActions{
     <ul class="nav navbar-nav">
         @if (@ViewBag.UserRol == "Root")
         {
@@ -9,3 +11,6 @@
         <li><a asp-area="" asp-controller="Admin" asp-action="TestManage">Test</a></li>
     </ul>
 }
+
+<h1>Editando grupo: @Model.Nombre</h1>
+<h2>NOT_IMPLEMENTED_YET</h2>

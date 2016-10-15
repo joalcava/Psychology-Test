@@ -1,11 +1,16 @@
-﻿@section UserActions{
+﻿@model PsychologyTest.ViewModels.InstitucionViewModel
+
+@section UserActions{
     <ul class="nav navbar-nav">
         @if (@ViewBag.UserRol == "Root")
         {
             <li><a asp-area="" asp-controller="Root" asp-action="UsersManage">Usuarios</a> </li>
         }
-        <li><a asp-area="" asp-controller="Admin" asp-action="InstitutionsManage">Instituciones</a></li>
-        <li class="active"><a asp-area="" asp-controller="Admin" asp-action="GroupsManage">Grupos</a></li>
+        <li class="active"><a asp-area="" asp-controller="Admin" asp-action="InstitutionsManage">Instituciones</a></li>
+        <li><a asp-area="" asp-controller="Admin" asp-action="GroupsManage">Grupos</a></li>
         <li><a asp-area="" asp-controller="Admin" asp-action="TestManage">Test</a></li>
     </ul>
 }
+
+<h1>Editando institucion: @Model.Nombre</h1>
+<h2>NOT_IMPLEMENTED_YET</h2>

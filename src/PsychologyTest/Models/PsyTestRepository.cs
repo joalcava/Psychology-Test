@@ -3,6 +3,7 @@ using System.Linq;
 using AutoMapper;
 using PsychologyTest.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace PsychologyTest.Models
 {
@@ -136,6 +137,46 @@ namespace PsychologyTest.Models
             return _context.Grupos.Select(n => n.Nombre).ToList();
         }
 
+        public bool DeleteGrupo(string grupoId)
+        {
+            try {
+                var g = _context.Grupos.First(i => i.Id == Convert.ToInt32(grupoId));
+                _context.Remove<Grupo>(g);
+                _context.SaveChanges();
+                return true;
+            }
+            catch {
+                return false;
+            }
+        }
 
+        public bool DeleteInstitucion(string instId)
+        {
+            try {
+                var inst = _context.Instituciones.
+                    Include(x => x.Grupos)
+                    .First(i => i.Id == Convert.ToInt32(instId));
+                foreach (var grupo in inst.Grupos) {
+                    _context.Remove(grupo);
+                }
+                _context.SaveChanges();
+                _context.Remove(inst);
+                _context.SaveChanges();
+                return true;
+            }
+            catch {
+                return false;
+            }
+        }
+
+        public Grupo GetGrupoById(int grupoId)
+        {
+            return _context.Grupos.First(i => i.Id == grupoId);
+        }
+
+        public Institucion GetInstitucionById(int instId)
+        {
+            return _context.Instituciones.First(i => i.Id == instId);
+        }
     }
 }

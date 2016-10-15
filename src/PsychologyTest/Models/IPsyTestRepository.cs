@@ -17,5 +17,9 @@ namespace PsychologyTest.Models
         bool AddInstitucion(Institucion institucion);
         bool AddGrupo(ViewModels.GrupoViewModel grupo);
         List<string> GetAllGrupoNames();
+        bool DeleteGrupo(string grupoId);
+        bool DeleteInstitucion(string instId);
+        Grupo GetGrupoById(int grupoId);
+        Institucion GetInstitucionById(int v);
     }
 }
