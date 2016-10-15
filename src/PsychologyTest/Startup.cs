@@ -35,9 +35,9 @@ namespace PsychologyTest
 
             services.AddMvc(config =>
             {
-                if (_env.IsProduction()) {
-                    config.Filters.Add(new RequireHttpsAttribute());
-                }
+                //if (_env.IsProduction()) {
+                //    config.Filters.Add(new RequireHttpsAttribute());
+                //}
             }).AddJsonOptions(config =>
             {
                 config.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -97,15 +97,15 @@ namespace PsychologyTest
             app.UseStaticFiles();
             app.UseIdentity();
             
-            if (env.IsDevelopment()) {
+            //if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
                 loggerFactory.AddDebug(LogLevel.Information);
-            }
-            else {
-                app.UseExceptionHandler("/Home/Error");
-                loggerFactory.AddDebug(LogLevel.Error);
-            }
+            //}
+            //else {
+            //    app.UseExceptionHandler("/Home/Error");
+            //    loggerFactory.AddDebug(LogLevel.Error);
+            //}
 
             app.UseMvc(routes => {
                 routes.MapRoute(
@@ -113,7 +113,7 @@ namespace PsychologyTest
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            seeder.SeedDataTask().Wait();
+            //seeder.SeedDataTask().Wait();
         }
     }
 }

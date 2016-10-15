@@ -8,8 +8,8 @@ using PsychologyTest.Models;
 namespace PsychologyTest.Migrations
 {
     [DbContext(typeof(PsyTestContext))]
-    [Migration("20161011034222_OldUsersSupport")]
-    partial class OldUsersSupport
+    [Migration("20161014200049_InitDB")]
+    partial class InitDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -162,6 +162,28 @@ namespace PsychologyTest.Migrations
                     b.ToTable("UsuariosViejos");
                 });
 
+            modelBuilder.Entity("PsychologyTest.Models.Estudiante", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("GrupoId");
+
+                    b.Property<int?>("InstitucionId");
+
+                    b.Property<string>("UsuarioId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GrupoId");
+
+                    b.HasIndex("InstitucionId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("Estudiantes");
+                });
+
             modelBuilder.Entity("PsychologyTest.Models.Grupo", b =>
                 {
                     b.Property<int>("Id")
@@ -174,8 +196,6 @@ namespace PsychologyTest.Migrations
                     b.Property<string>("Jornada");
 
                     b.Property<string>("Nombre");
-
-                    b.Property<int>("NumeroEstudiantes");
 
                     b.HasKey("Id");
 
@@ -193,15 +213,39 @@ namespace PsychologyTest.Migrations
 
                     b.Property<string>("Direccion");
 
+                    b.Property<string>("Nit");
+
                     b.Property<string>("Nombre");
 
-                    b.Property<string>("Telefono");
+                    b.Property<string>("SitioWeb");
 
-                    b.Property<string>("WebSite");
+                    b.Property<string>("Telefono");
 
                     b.HasKey("Id");
 
                     b.ToTable("Instituciones");
+                });
+
+            modelBuilder.Entity("PsychologyTest.Models.Psicologo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("GrupoId");
+
+                    b.Property<int?>("InstitucionId");
+
+                    b.Property<string>("UsuarioId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GrupoId");
+
+                    b.HasIndex("InstitucionId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("Psicologos");
                 });
 
             modelBuilder.Entity("PsychologyTest.Models.PsyTestUser", b =>
@@ -225,8 +269,6 @@ namespace PsychologyTest.Migrations
                         .HasAnnotation("MaxLength", 256);
 
                     b.Property<bool>("EmailConfirmed");
-
-                    b.Property<DateTime>("FechaNacimiento");
 
                     b.Property<DateTime>("FechaRegistro");
 
@@ -310,11 +352,41 @@ namespace PsychologyTest.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("PsychologyTest.Models.Estudiante", b =>
+                {
+                    b.HasOne("PsychologyTest.Models.Grupo", "Grupo")
+                        .WithMany()
+                        .HasForeignKey("GrupoId");
+
+                    b.HasOne("PsychologyTest.Models.Institucion", "Institucion")
+                        .WithMany()
+                        .HasForeignKey("InstitucionId");
+
+                    b.HasOne("PsychologyTest.Models.PsyTestUser", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId");
+                });
+
             modelBuilder.Entity("PsychologyTest.Models.Grupo", b =>
                 {
-                    b.HasOne("PsychologyTest.Models.Institucion")
+                    b.HasOne("PsychologyTest.Models.Institucion", "Institucion")
                         .WithMany("Grupos")
                         .HasForeignKey("InstitucionId");
+                });
+
+            modelBuilder.Entity("PsychologyTest.Models.Psicologo", b =>
+                {
+                    b.HasOne("PsychologyTest.Models.Grupo", "Grupo")
+                        .WithMany()
+                        .HasForeignKey("GrupoId");
+
+                    b.HasOne("PsychologyTest.Models.Institucion", "Institucion")
+                        .WithMany()
+                        .HasForeignKey("InstitucionId");
+
+                    b.HasOne("PsychologyTest.Models.PsyTestUser", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId");
                 });
         }
     }

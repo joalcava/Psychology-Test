@@ -23,7 +23,7 @@ namespace PsychologyTest.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer(config["ConnectionStrings:PsyTestContextConnection"]);
+            optionsBuilder.UseSqlServer(config["ConnectionStrings:LocalConnection"]);
         }
     }
 }
