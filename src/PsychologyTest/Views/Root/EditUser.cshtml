@@ -1,6 +1,6 @@
 ﻿@model PsychologyTest.ViewModels.RootEditUserViewModel
 @{
-    ViewBag.Title = "Registrarse";
+    ViewBag.Title = "Editar usuario";
 }
 @section Scripts {
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
@@ -143,7 +143,7 @@
 
     <div class="form-group">
         <div class="col-lg-10 col-lg-offset-2">
-            <a asp-controller="Root" asp-action="UsersManage" type="submit" class="btn btn-default">Volver</a>
+            <button asp-controller="Root" asp-action="UsersManage" type="submit" class="btn btn-default">Volver</button>
             <button class="btn btn-primary" type="submit">Enviar</button>
         </div>
     </div>

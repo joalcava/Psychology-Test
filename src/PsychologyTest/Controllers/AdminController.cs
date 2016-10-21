@@ -30,7 +30,7 @@ namespace PsychologyTest.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GroupsManage()
+        public IActionResult GroupsManage()
         {
             ViewBag.UserRol = User.IsInRole("Root") ? "Root" : "Admin";
             var model = _repository.GetAllGrupos();
@@ -38,7 +38,7 @@ namespace PsychologyTest.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> InstitutionsManage()
+        public IActionResult InstitutionsManage()
         {
             ViewBag.UserRol = User.IsInRole("Root") ? "Root" : "Admin";
             var model = _repository.GetAllInstituciones();
@@ -46,7 +46,7 @@ namespace PsychologyTest.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> TestManage()
+        public IActionResult TestManage()
         {
             ViewBag.UserRol = User.IsInRole("Root") ? "Root" : "Admin";
             return View();
@@ -121,7 +121,10 @@ namespace PsychologyTest.Controllers
             ViewBag.Instituciones = _repository.GetAllInstitucionNames();
             if (ModelState.IsValid)
             {
-
+                var newGrupoData = Mapper.Map<Grupo>(vm);
+                _repository.UpdateGrupo(newGrupoData);
+                ViewBag.Success = true;
+                return View();
             }
             return View(vm);
         }
@@ -142,7 +145,10 @@ namespace PsychologyTest.Controllers
             ViewBag.UserRol = User.IsInRole("Root") ? "Root" : "Admin";
             if (ModelState.IsValid)
             {
-
+                var newInstitucionData = Mapper.Map<Institucion>(vm);
+                _repository.UpdateInstitucion(newInstitucionData);
+                ViewBag.Success = true;
+                return View();
             }
             return View(vm);
         }

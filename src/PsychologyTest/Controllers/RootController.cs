@@ -108,8 +108,6 @@ namespace PsychologyTest.Controllers
             return RedirectToAction("UsersManage", "Root");
         }
 
-
-
         public async Task<IActionResult> EditUser(string userName)
         {
             var model = await _userManager.FindByNameAsync(userName);
@@ -118,7 +116,7 @@ namespace PsychologyTest.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditUser(RootEditUserViewModel vm)
+        public IActionResult EditUser(RootEditUserViewModel vm)
         {
             if (ModelState.IsValid) {
                 var newUserData = Mapper.Map<PsyTestUser>(vm);

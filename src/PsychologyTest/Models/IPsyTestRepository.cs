@@ -21,5 +21,7 @@ namespace PsychologyTest.Models
         bool DeleteInstitucion(string instId);
         Grupo GetGrupoById(int grupoId);
         Institucion GetInstitucionById(int v);
+        void UpdateInstitucion(Institucion newInstitucionData);
+        void UpdateGrupo(Grupo newGrupoData);
     }
 }

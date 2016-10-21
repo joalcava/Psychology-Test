@@ -178,5 +178,27 @@ namespace PsychologyTest.Models
         {
             return _context.Instituciones.First(i => i.Id == instId);
         }
+
+        public void UpdateInstitucion(Institucion newInstitucionData)
+        {
+            var inst = _context.Instituciones.First(i => i.Id == newInstitucionData.Id);
+            _context.Update(inst);
+            inst.Nit = newInstitucionData.Nit;
+            inst.Nombre = newInstitucionData.Nombre;
+            inst.SitioWeb = newInstitucionData.SitioWeb;
+            inst.Telefono = newInstitucionData.Telefono;
+            _context.SaveChanges();
+        }
+
+        public void UpdateGrupo(Grupo newGrupoData)
+        {
+            var grupo = _context.Grupos.First(g => g.Id == newGrupoData.Id);
+            _context.Update(grupo);
+            grupo.Grado = newGrupoData.Grado;
+            grupo.Institucion = newGrupoData.Institucion;
+            grupo.Jornada = newGrupoData.Jornada;
+            grupo.Nombre = newGrupoData.Nombre;
+            _context.SaveChanges();
+        }
     }
 }

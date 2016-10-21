@@ -1,5 +1,13 @@
 ﻿@model PsychologyTest.ViewModels.GrupoViewModel
 
+@{
+    ViewBag.Title = "Editar grupo";
+}
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
 @section UserActions{
     <ul class="nav navbar-nav">
         @if (@ViewBag.UserRol == "Root")
@@ -13,4 +21,23 @@
 }
 
 <h1>Editando grupo: @Model.Nombre</h1>
-<h2>NOT_IMPLEMENTED_YET</h2>
+
+<form class="form-horizontal" method="post" novalidate>
+    <div asp-validation-summary="ModelOnly"></div>
+
+    <div class="form-group">
+        <label></label>
+        <div class="col-lg-8">
+            <input />
+            <span ></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-8 col-lg-offset-4">
+            <button class="btn btn-primary" type="reset">Limpiar</button>
+            <button class="btn btn-primary" type="submit">Enviar</button>
+        </div>
+    </div>
+
+</form>
