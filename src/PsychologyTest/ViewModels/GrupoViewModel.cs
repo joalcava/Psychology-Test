@@ -4,7 +4,7 @@ namespace PsychologyTest.ViewModels
 {
     public class GrupoViewModel
     {
-        private int Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [StringLength(25, MinimumLength = 2, ErrorMessage = "El nombre debe contener almenos dos caracteres y maximo 25")]

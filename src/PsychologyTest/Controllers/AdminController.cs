@@ -12,6 +12,9 @@ namespace PsychologyTest.Controllers
     [Authorize("EmailConfirmedPolicy")]
     public class AdminController : Controller
     {
+        // TODO: Notificar creacion de institucion
+        // TODO: Limpiar pagina de grupo luego de la creacion
+
         #region Class Members
         private IPsyTestRepository _repository;
 
@@ -116,7 +119,6 @@ namespace PsychologyTest.Controllers
         [HttpPost]
         public IActionResult EditGrupo(GrupoViewModel vm)
         {
-            // TODO: Implementar vista y controlador
             ViewBag.UserRol = User.IsInRole("Root") ? "Root" : "Admin";
             ViewBag.Instituciones = _repository.GetAllInstitucionNames();
             if (ModelState.IsValid)
