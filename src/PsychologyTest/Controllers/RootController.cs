@@ -49,7 +49,7 @@ namespace PsychologyTest.Controllers
             try
             {
                 var user = await _userManager.FindByNameAsync(userName);
-                string rol = Rol(user.RolSolicitado);
+                string rol = this.Rol(user.RolSolicitado);
                 await _userManager.AddToRoleAsync(user, rol);
                 await _userManager.AddClaimAsync(user, new Claim("emailconfirmation", "1"));
                 _repository.ConfirmEmail(user);

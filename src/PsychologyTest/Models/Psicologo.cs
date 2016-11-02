@@ -1,10 +1,11 @@
-﻿namespace PsychologyTest.Models
+﻿using System.Collections.Generic;
+
+namespace PsychologyTest.Models
 {
     public class Psicologo
     {
         public int Id { get; set; }
         public PsyTestUser Usuario { get; set; }
-        public Institucion Institucion { get; set; }
-        public Grupo Grupo { get; set; }
+        public List<Grupo> Grupos { get; set; }
     }
 }

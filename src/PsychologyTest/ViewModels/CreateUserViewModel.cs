@@ -51,6 +51,7 @@ namespace PsychologyTest.ViewModels
         public string RolSolicitado { get; set; }
 
         public string InstitucionSolicitada { get; set; }
+
         public string GrupoSolicitado { get; set; }
 
         public IEnumerable<Models.Institucion> Instituciones { get; set; }
