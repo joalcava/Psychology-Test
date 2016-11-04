@@ -132,10 +132,10 @@ namespace PsychologyTest.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditInstitucion(string instId)
+        public IActionResult EditInstitucion(int instId)
         {
             ViewBag.UserRol = User.IsInRole("Root") ? "Root" : "Admin";
-            Institucion model = _repository.GetInstitucionById(Convert.ToInt32(instId));
+            Institucion model = _repository.GetInstitucionById(instId);
             var viewModel = Mapper.Map<InstitucionViewModel>(model);
             return View(viewModel);
         }
@@ -143,14 +143,13 @@ namespace PsychologyTest.Controllers
         [HttpPost]
         public IActionResult EditInstitucion(InstitucionViewModel vm)
         {
-            // TODO: Implementar vista y controlador
-            ViewBag.UserRol = User.IsInRole("Root") ? "Root" : "Admin";
+            //ViewBag.UserRol = User.IsInRole("Root") ? "Root" : "Admin";
             if (ModelState.IsValid)
             {
                 var newInstitucionData = Mapper.Map<Institucion>(vm);
                 _repository.UpdateInstitucion(newInstitucionData);
                 ViewBag.Success = true;
-                return View();
+                return View(vm);
             }
             return View(vm);
         }
@@ -166,7 +165,7 @@ namespace PsychologyTest.Controllers
         }
 
         [HttpGet]
-        public IActionResult DeleteInstitucion(string instId)
+        public IActionResult DeleteInstitucion(int instId)
         {
             bool result = _repository.DeleteInstitucion(instId);
             if (result)

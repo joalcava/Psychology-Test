@@ -5,10 +5,10 @@ namespace PsychologyTest.ViewModels
 {
     public class InstitucionViewModel
     {
-        public int Id { get; set; }
+        public int instId { get; set; }
 
         [Required]
-        public string Nit { get; set; }
+        public int Nit { get; set; }
 
         [Required]
         [StringLength(50, MinimumLength = 4, ErrorMessage = "El nombre debe contener almenos cuatro caracteres y maximo 50")]

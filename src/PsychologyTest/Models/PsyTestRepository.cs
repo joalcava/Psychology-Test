@@ -150,12 +150,12 @@ namespace PsychologyTest.Models
             }
         }
 
-        public bool DeleteInstitucion(string instId)
+        public bool DeleteInstitucion(int instId)
         {
             try {
                 var inst = _context.Instituciones.
                     Include(x => x.Grupos)
-                    .First(i => i.Id == Convert.ToInt32(instId));
+                    .First(i => i.Nit == instId);
                 foreach (var grupo in inst.Grupos) {
                     _context.Remove(grupo);
                 }
@@ -176,12 +176,12 @@ namespace PsychologyTest.Models
 
         public Institucion GetInstitucionById(int instId)
         {
-            return _context.Instituciones.First(i => i.Id == instId);
+            return _context.Instituciones.First(i => i.Nit == instId);
         }
 
-        public void UpdateInstitucion(Institucion newInstitucionData)
+        public void UpdateInstitucion(int instId, Institucion newInstitucionData)
         {
-            var inst = _context.Instituciones.First(i => i.Id == newInstitucionData.Id);
+            var inst = _context.Instituciones.First(i => i.Nit == instId);
             _context.Update(inst);
             inst.Nit = newInstitucionData.Nit;
             inst.Nombre = newInstitucionData.Nombre;
