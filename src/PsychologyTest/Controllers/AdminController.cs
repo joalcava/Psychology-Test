@@ -14,9 +14,6 @@ namespace PsychologyTest.Controllers
     [Authorize("EmailConfirmedPolicy")]
     public class AdminController : Controller
     {
-        // TODO: Notificar creacion de institucion
-        // TODO: Limpiar pagina de grupo luego de la creacion
-
         #region Class Members
         private IPsyTestRepository _repository;
 
