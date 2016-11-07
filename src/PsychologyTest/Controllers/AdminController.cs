@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using PsychologyTest.Models;
 using PsychologyTest.ViewModels;
 
@@ -56,39 +58,10 @@ namespace PsychologyTest.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreateGrupo()
-        {
-            ViewBag.UserRol = User.IsInRole("Root") ? "Root" : "Admin";
-            ViewBag.Instituciones = _repository.GetAllInstitucionNames();
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult CreateGrupo(GrupoViewModel vm)
-        {
-            ViewBag.UserRol = User.IsInRole("Root") ? "Root" : "Admin";
-            ViewBag.Instituciones = _repository.GetAllInstitucionNames();
-            if (ModelState.IsValid) {
-                bool result = _repository.AddGrupo(vm);
-                if (result) {
-                    vm.Success = true;
-                    vm.Inst = "";
-                    vm.Jornada = "";
-                    vm.Grado = "";
-                    vm.Nombre = "";
-                    return View(vm);
-                }
-                ModelState.AddModelError("", "No se pudo crear el grupo");
-            }
-            vm.Success = false;
-            return View(vm);
-        }
-
-        [HttpGet]
         public IActionResult CreateInstitucion()
         {
             ViewBag.UserRol = User.IsInRole("Root") ? "Root" : "Admin";
-            return View();
+            return View(new InstitucionViewModel());
         }
 
         [HttpPost]
@@ -98,12 +71,37 @@ namespace PsychologyTest.Controllers
             if (ModelState.IsValid) {
                 bool result = _repository.AddInstitucion(Mapper.Map<Institucion>(vm));
                 if (result) {
-                    ViewData["Success"] = true;
-                    return RedirectToAction("CreateInstitucion", "Admin");
+                    return View(new InstitucionViewModel {Success = true});
                 }
                 ModelState.AddModelError("", "No se pudo crear la institucion");
             }
-            ViewData["Success"] = false;
+            return View(vm);
+        }
+
+        [HttpGet]
+        public IActionResult CreateGrupo()
+        {
+            ViewBag.UserRol = User.IsInRole("Root") ? "Root" : "Admin";
+            GrupoViewModel vm = new GrupoViewModel();
+            vm.ListadoInstituciones = _repository.GetAllInstitucionNames();
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult CreateGrupo(GrupoViewModel vm)
+        {
+            ViewBag.UserRol = User.IsInRole("Root") ? "Root" : "Admin";
+            if (ModelState.IsValid) {
+                bool result = _repository.AddGrupo(vm);
+                if (result) {
+                    GrupoViewModel viewModel = new GrupoViewModel {
+                        Success = true,
+                        ListadoInstituciones = _repository.GetAllInstitucionNames()
+                    };
+                    return View(viewModel);
+                }
+                ModelState.AddModelError(string.Empty, "No se pudo crear el grupo");
+            }
             return View(vm);
         }
 
@@ -112,21 +110,23 @@ namespace PsychologyTest.Controllers
         {
             ViewBag.UserRol = User.IsInRole("Root") ? "Root" : "Admin";
             Grupo model = _repository.GetGrupoById(Convert.ToInt32(grupoId));
-            var viewModel = Mapper.Map<GrupoViewModel>(model);
-            return View(viewModel);
+            var vm = Mapper.Map<GrupoViewModel>(model);
+            vm.ListadoInstituciones = _repository.GetAllInstitucionNames();
+            vm.Inst = model.Institucion.Nombre;
+            return View(vm);
         }
 
         [HttpPost]
         public IActionResult EditGrupo(GrupoViewModel vm)
         {
             ViewBag.UserRol = User.IsInRole("Root") ? "Root" : "Admin";
-            ViewBag.Instituciones = _repository.GetAllInstitucionNames();
             if (ModelState.IsValid)
             {
                 var newGrupoData = Mapper.Map<Grupo>(vm);
                 _repository.UpdateGrupo(newGrupoData);
-                ViewBag.Success = true;
-                return View();
+                vm.ListadoInstituciones = _repository.GetAllInstitucionNames();
+                vm.Success = true;
+                return View(vm);
             }
             return View(vm);
         }
@@ -143,12 +143,12 @@ namespace PsychologyTest.Controllers
         [HttpPost]
         public IActionResult EditInstitucion(InstitucionViewModel vm)
         {
-            //ViewBag.UserRol = User.IsInRole("Root") ? "Root" : "Admin";
+            ViewBag.UserRol = User.IsInRole("Root") ? "Root" : "Admin";
             if (ModelState.IsValid)
             {
                 var newInstitucionData = Mapper.Map<Institucion>(vm);
                 _repository.UpdateInstitucion(newInstitucionData);
-                ViewBag.Success = true;
+                vm.Success = true;
                 return View(vm);
             }
             return View(vm);
@@ -173,7 +173,6 @@ namespace PsychologyTest.Controllers
             // TODO: Mostrar un mensaje de error en la vista
             throw new NotImplementedException();
         }
-
         #endregion
     }
 }

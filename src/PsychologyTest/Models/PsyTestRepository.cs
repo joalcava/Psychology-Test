@@ -171,7 +171,7 @@ namespace PsychologyTest.Models
 
         public Grupo GetGrupoById(int grupoId)
         {
-            return _context.Grupos.First(i => i.Id == grupoId);
+            return _context.Grupos.Include(x => x.Institucion).First(i => i.Id == grupoId);
         }
 
         public Institucion GetInstitucionById(int instId)
@@ -179,14 +179,16 @@ namespace PsychologyTest.Models
             return _context.Instituciones.First(i => i.Nit == instId);
         }
 
-        public void UpdateInstitucion(int instId, Institucion newInstitucionData)
+        public void UpdateInstitucion(Institucion newInstitucionData)
         {
-            var inst = _context.Instituciones.First(i => i.Nit == instId);
+            var inst = _context.Instituciones.First(i => i.Nit == newInstitucionData.Nit);
             _context.Update(inst);
             inst.Nit = newInstitucionData.Nit;
             inst.Nombre = newInstitucionData.Nombre;
             inst.SitioWeb = newInstitucionData.SitioWeb;
             inst.Telefono = newInstitucionData.Telefono;
+            inst.Ciudad = newInstitucionData.Ciudad;
+            inst.Direccion = newInstitucionData.Direccion;
             _context.SaveChanges();
         }
 

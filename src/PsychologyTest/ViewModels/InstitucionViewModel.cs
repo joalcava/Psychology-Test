@@ -5,6 +5,8 @@ namespace PsychologyTest.ViewModels
 {
     public class InstitucionViewModel
     {
+        public bool Success { get; set; }
+
         public int instId { get; set; }
 
         [Required]

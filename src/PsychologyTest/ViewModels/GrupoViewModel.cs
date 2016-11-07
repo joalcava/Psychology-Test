@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace PsychologyTest.ViewModels
 {
@@ -18,5 +20,8 @@ namespace PsychologyTest.ViewModels
         public string Inst { get; set; }
 
         public bool Success { get; set; } = false;
+
+        public List<string> ListadoInstituciones { get; set; }
+
     }
 }

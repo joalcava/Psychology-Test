@@ -1,4 +1,5 @@
-﻿@model PsychologyTest.ViewModels.GrupoViewModel
+﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model PsychologyTest.ViewModels.GrupoViewModel
 
 @{
     ViewData["Title"] = "Crear Grupo";
@@ -69,12 +70,8 @@
         <div class="form-group">
             <label asp-for="Inst" class="col-lg-2 control-label"></label>
             <div class="col-lg-10">
-                <select asp-for="Inst" class="form-control">
+                <select asp-for="Inst" asp-items="@(new SelectList(Model.ListadoInstituciones, "Nombre"))" class="form-control">
                     <option></option>
-                    @foreach (var i in ViewBag.Instituciones)
-                    {
-                        <option value="@i">@i</option>
-                    }
                 </select>
                 <span asp-validation-for="Inst"></span>
             </div>

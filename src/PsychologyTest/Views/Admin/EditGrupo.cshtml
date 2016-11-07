@@ -25,17 +25,56 @@
 <form class="form-horizontal" method="post" novalidate>
     <div asp-validation-summary="ModelOnly"></div>
 
+    @if (@Model.Success)
+    {
+        <div class="alert alert-dismissible alert-success">
+            <button class="close" type="button" data-dismiss="alert">&times;</button>
+            El grupo se actualizo correctamente.
+        </div>
+    }
+
+
+    <input asp-for="Id" readonly type="hidden" />
+
     <div class="form-group">
-        <label></label>
-        <div class="col-lg-8">
-            <input />
-            <span ></span>
+        <label asp-for="Nombre" class="col-lg-2 control-label"></label>
+        <div class="col-lg-10">
+            <input asp-for="Nombre" class="form-control" id="nombre" type="text" />
+            <span asp-validation-for="Nombre"></span>
         </div>
     </div>
 
     <div class="form-group">
-        <div class="col-lg-8 col-lg-offset-4">
-            <button class="btn btn-primary" type="reset">Limpiar</button>
+        <label asp-for="Grado" class="col-lg-2 control-label"></label>
+        <div class="col-lg-10">
+            <input asp-for="Grado" class="form-control" type="text" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Jornada" class="col-lg-2 control-label"></label>
+        <div class="col-lg-10">
+            <select asp-for="Jornada" class="form-control">
+                <option></option>
+                <option>Completa</option>
+                <option>Dia</option>
+                <option>Tarde</option>
+                <option>Noche</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Inst" class="col-lg-2 control-label"></label>
+        <div class="col-lg-10">
+            <select asp-for="Inst" asp-items="@(new SelectList(Model.ListadoInstituciones, "Nombre"))" class="form-control"></select>
+            <span asp-validation-for="Inst"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-8 col-lg-offset-2">
+            <a asp-controller="Admin" asp-action="GroupsManage" class="btn btn-default">Volver</a>
             <button class="btn btn-primary" type="submit">Enviar</button>
         </div>
     </div>
