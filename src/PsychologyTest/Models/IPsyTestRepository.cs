@@ -29,5 +29,6 @@ namespace PsychologyTest.Models
         void UpdateUser(string email, PsyTestUser vm);
         void UpdateInstitucion(Institucion newInstitucionData);
         void UpdateGrupo(Grupo newGrupoData);
+        IEnumerable<PruebaPsicologica> GetAllTests(bool include);
     }
 }

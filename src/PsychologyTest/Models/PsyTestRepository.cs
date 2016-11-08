@@ -202,5 +202,12 @@ namespace PsychologyTest.Models
             grupo.Nombre = newGrupoData.Nombre;
             _context.SaveChanges();
         }
+
+        public IEnumerable<PruebaPsicologica> GetAllTests(bool include = false)
+        {
+            if (include)
+                return _context.PruebasPsicologicas.ToList();
+            return _context.PruebasPsicologicas.Include(x => x.Preguntas).ToList();
+        }
     }
 }

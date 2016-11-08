@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 
 namespace PsychologyTest.Models
 {
+    // TODO: Agregar boton de desactivar/activar en la vista.
     public class PruebaPsicologica
     {
         public int Id { get; set; }
+        public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public List<Pregunta> Preguntas { get; set; }
         public DateTime FechaCreado { get; set; }
