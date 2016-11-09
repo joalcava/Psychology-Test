@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PsychologyTest.Models;
 using PsychologyTest.ViewModels;
+using PsychologyTest.ViewModels.AdminViewModels;
 
 namespace PsychologyTest.Controllers
 {
@@ -29,6 +30,8 @@ namespace PsychologyTest.Controllers
         public IActionResult Index()
         {
             ViewBag.UserRol = User.IsInRole("Root") ? "Root" : "Admin";
+            if (ViewBag.UserRol == "Root")
+                return RedirectToAction("Index", "Root");
             return View();
         }
 
@@ -182,6 +185,19 @@ namespace PsychologyTest.Controllers
             var vm = _repository.GetAllTests(include: true);
             return View(vm);
         }
+
+        [HttpGet]
+        public IActionResult CreateTest()
+        {
+            return View(new CreateTestViewModel());
+        }
+
+        [HttpPost]
+        public IActionResult CreateTest(CreateTestViewModel vm)
+        {
+            return View();
+        }
+           
         #endregion
 
         #endregion

@@ -1,0 +1,62 @@
+﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model PsychologyTest.ViewModels.AdminViewModels.CreateTestViewModel
+
+@{
+    ViewData["Title"] = "Crear Institucion";
+}
+
+@section UserActions{
+    <ul class="nav navbar-nav">
+        @if (@ViewBag.UserRol == "Root")
+        {
+            <li><a asp-area="" asp-controller="Root" asp-action="UsersManage">Usuarios</a> </li>
+        }
+        <li class="active"><a asp-area="" asp-controller="Admin" asp-action="InstitutionsManage">Instituciones</a></li>
+        <li><a asp-area="" asp-controller="Admin" asp-action="GroupsManage">Grupos</a></li>
+        <li><a asp-area="" asp-controller="Admin" asp-action="TestManage">Test</a></li>
+    </ul>
+}
+
+<div>
+    <div class="page-header">
+        <h1>Crear Institucion</h1>
+    </div>
+
+    @if (@Model.Success)
+    {
+        <div class="alert alert-dismissible alert-success">
+            <button class="close" type="button" data-dismiss="alert">&times;</button>
+            La institucion se creo correctamente.
+        </div>
+    }
+
+
+    <form class="form-horizontal" method="post" novalidate>
+        <div asp-validation-summary="ModelOnly"></div>
+
+        <div class="form-group">
+            <label asp-for="Nombre" class="col-lg-2 control-label"></label>
+            <div class="col-lg-10">
+                <input asp-for="Nombre" class="form-control" type="text" />
+                <span asp-validation-for="Nombre"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Descripcion" class="col-lg-2 control-label"></label>
+            <div class="col-lg-10">
+                <input asp-for="Descripcion" class="form-control" type="text" />
+                <span asp-validation-for="Descripcion"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-lg-10 col-lg-offset-2">
+                <a asp-controller="Admin" asp-action="TestManage" class="btn btn-default">Volver</a>
+                <button class="btn btn-primary" type="submit">Enviar</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
