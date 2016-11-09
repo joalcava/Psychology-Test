@@ -7,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
+using Microsoft.AspNetCore.Http;
+using React.AspNet;
 using PsychologyTest.Models;
 
 namespace PsychologyTest
@@ -42,6 +44,9 @@ namespace PsychologyTest
             {
                 config.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddReact();
 
             services.AddIdentity<PsyTestUser, IdentityRole>(config =>
             {
@@ -94,7 +99,27 @@ namespace PsychologyTest
             });
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
 
+            app.UseReact(config => 
+            {
+                // If you want to use server-side rendering of React components,
+                // add all the necessary JavaScript files here. This includes
+                // your components as well as all of their dependencies.
+                // See http://reactjs.net/ for more information. Example:
+                //config
+                //    .AddScript("~/Scripts/First.jsx")
+                //    .AddScript("~/Scripts/Second.jsx");
+
+                // If you use an external build too (for example, Babel, Webpack,
+                // Browserify or Gulp), you can improve performance by disabling
+                // ReactJS.NET's version of Babel and loading the pre-transpiled
+                // scripts. Example:
+                //config
+                //    .SetLoadBabel(false)
+                //    .AddScriptWithoutTransform("~/Scripts/bundle.server.js");
+            });
+
             app.UseStaticFiles();
+
             app.UseIdentity();
             
             //if (env.IsDevelopment()) {
