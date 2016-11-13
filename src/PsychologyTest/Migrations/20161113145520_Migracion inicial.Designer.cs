@@ -8,8 +8,8 @@ using PsychologyTest.Models;
 namespace PsychologyTest.Migrations
 {
     [DbContext(typeof(PsyTestContext))]
-    [Migration("20161108203135_Nombre para las pruebas")]
-    partial class Nombreparalaspruebas
+    [Migration("20161113145520_Migracion inicial")]
+    partial class Migracioninicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -210,8 +210,7 @@ namespace PsychologyTest.Migrations
 
             modelBuilder.Entity("PsychologyTest.Models.Institucion", b =>
                 {
-                    b.Property<int>("Nit")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Nit");
 
                     b.Property<string>("Ciudad");
 
@@ -228,12 +227,12 @@ namespace PsychologyTest.Migrations
                     b.ToTable("Instituciones");
                 });
 
-            modelBuilder.Entity("PsychologyTest.Models.OpcionMultiple", b =>
+            modelBuilder.Entity("PsychologyTest.Models.Opcion", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("PreguntaOrigenId");
+                    b.Property<int?>("PreguntaDeOpcionMultipleId");
 
                     b.Property<string>("Texto");
 
@@ -241,9 +240,43 @@ namespace PsychologyTest.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PreguntaOrigenId");
+                    b.HasIndex("PreguntaDeOpcionMultipleId");
 
-                    b.ToTable("OpcionesMultiples");
+                    b.ToTable("Opciones");
+                });
+
+            modelBuilder.Entity("PsychologyTest.Models.OpcionConValorDeVerdad", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("MultiplesRespuestasConValorId");
+
+                    b.Property<int>("Opcion");
+
+                    b.Property<int>("Valor");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MultiplesRespuestasConValorId");
+
+                    b.ToTable("OpcionesConValorDeVerdad");
+                });
+
+            modelBuilder.Entity("PsychologyTest.Models.OpcionEscogida", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("MultiplesRespuestasId");
+
+                    b.Property<int>("Opcion");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MultiplesRespuestasId");
+
+                    b.ToTable("OpcionesEscogidas");
                 });
 
             modelBuilder.Entity("PsychologyTest.Models.Pregunta", b =>
@@ -251,51 +284,24 @@ namespace PsychologyTest.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("FechaModificado");
+                    b.Property<string>("Anotaciones");
 
-                    b.Property<int>("Orden");
+                    b.Property<string>("Descripcion");
 
-                    b.Property<int?>("PruebaId");
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
 
-                    b.Property<string>("RespuestaEsperada");
+                    b.Property<int>("Posicion");
 
-                    b.Property<string>("Texto");
-
-                    b.Property<int?>("TipoId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PruebaId");
-
-                    b.HasIndex("TipoId");
-
-                    b.ToTable("Preguntas");
-                });
-
-            modelBuilder.Entity("PsychologyTest.Models.PruebaAsignada", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("Completado");
-
-                    b.Property<string>("Diagnostico");
-
-                    b.Property<int?>("EncuestadoId");
-
-                    b.Property<DateTime>("FechaAsignacion");
-
-                    b.Property<DateTime>("FechaFinalizacion");
-
-                    b.Property<DateTime>("FechaInicio");
-
-                    b.Property<bool>("Iniciado");
+                    b.Property<int?>("PruebaPsicologicaId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EncuestadoId");
+                    b.HasIndex("PruebaPsicologicaId");
 
-                    b.ToTable("PruebasAsignadas");
+                    b.ToTable("Pregunta");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Pregunta");
                 });
 
             modelBuilder.Entity("PsychologyTest.Models.PruebaPsicologica", b =>
@@ -316,6 +322,36 @@ namespace PsychologyTest.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PruebasPsicologicas");
+                });
+
+            modelBuilder.Entity("PsychologyTest.Models.PruebaPsicologicaAsignada", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Completado");
+
+                    b.Property<string>("Diagnostico");
+
+                    b.Property<int?>("EncuestadoId");
+
+                    b.Property<DateTime>("FechaAsignacion");
+
+                    b.Property<DateTime>("FechaFinalizacion");
+
+                    b.Property<DateTime>("FechaInicio");
+
+                    b.Property<bool>("Iniciado");
+
+                    b.Property<int?>("PruebaAsignadaId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EncuestadoId");
+
+                    b.HasIndex("PruebaAsignadaId");
+
+                    b.ToTable("PruebasPsicologicaAsignadas");
                 });
 
             modelBuilder.Entity("PsychologyTest.Models.Psicologo", b =>
@@ -399,20 +435,95 @@ namespace PsychologyTest.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("PsychologyTest.Models.TipoPregunta", b =>
+            modelBuilder.Entity("PsychologyTest.Models.Respuesta", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Descripcion");
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
 
-                    b.Property<string>("Nombre");
+                    b.Property<DateTime>("FechaRespondida");
 
-                    b.Property<bool>("OpcionMultiple");
+                    b.Property<int?>("PreguntaId");
+
+                    b.Property<int?>("PruebaPsicologicaAsignadaId");
 
                     b.HasKey("Id");
 
-                    b.ToTable("TiposDePregunta");
+                    b.HasIndex("PreguntaId");
+
+                    b.HasIndex("PruebaPsicologicaAsignadaId");
+
+                    b.ToTable("Respuesta");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Respuesta");
+                });
+
+            modelBuilder.Entity("PsychologyTest.Models.PreguntaAbierta", b =>
+                {
+                    b.HasBaseType("PsychologyTest.Models.Pregunta");
+
+                    b.Property<bool>("Larga");
+
+                    b.ToTable("PreguntaAbierta");
+
+                    b.HasDiscriminator().HasValue("PreguntaAbierta");
+                });
+
+            modelBuilder.Entity("PsychologyTest.Models.PreguntaDeOpcionMultiple", b =>
+                {
+                    b.HasBaseType("PsychologyTest.Models.Pregunta");
+
+                    b.Property<bool>("MultiplesRespuestas");
+
+                    b.Property<bool>("RespuestaConValorDeVerdad");
+
+                    b.ToTable("PreguntaDeOpcionMultiple");
+
+                    b.HasDiscriminator().HasValue("PreguntaDeOpcionMultiple");
+                });
+
+            modelBuilder.Entity("PsychologyTest.Models.MultiplesRespuestas", b =>
+                {
+                    b.HasBaseType("PsychologyTest.Models.Respuesta");
+
+
+                    b.ToTable("MultiplesRespuestas");
+
+                    b.HasDiscriminator().HasValue("MultiplesRespuestas");
+                });
+
+            modelBuilder.Entity("PsychologyTest.Models.MultiplesRespuestasConValor", b =>
+                {
+                    b.HasBaseType("PsychologyTest.Models.Respuesta");
+
+
+                    b.ToTable("MultiplesRespuestasConValor");
+
+                    b.HasDiscriminator().HasValue("MultiplesRespuestasConValor");
+                });
+
+            modelBuilder.Entity("PsychologyTest.Models.RespuestaAbierta", b =>
+                {
+                    b.HasBaseType("PsychologyTest.Models.Respuesta");
+
+                    b.Property<string>("TextoRespuesta");
+
+                    b.ToTable("RespuestaAbierta");
+
+                    b.HasDiscriminator().HasValue("RespuestaAbierta");
+                });
+
+            modelBuilder.Entity("PsychologyTest.Models.RespuestaCerrada", b =>
+                {
+                    b.HasBaseType("PsychologyTest.Models.Respuesta");
+
+                    b.Property<int>("OpcionRespuesta");
+
+                    b.ToTable("RespuestaCerrada");
+
+                    b.HasDiscriminator().HasValue("RespuestaCerrada");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
@@ -478,29 +589,43 @@ namespace PsychologyTest.Migrations
                         .HasForeignKey("PsicologoId");
                 });
 
-            modelBuilder.Entity("PsychologyTest.Models.OpcionMultiple", b =>
+            modelBuilder.Entity("PsychologyTest.Models.Opcion", b =>
                 {
-                    b.HasOne("PsychologyTest.Models.Pregunta", "PreguntaOrigen")
+                    b.HasOne("PsychologyTest.Models.PreguntaDeOpcionMultiple")
                         .WithMany("Opciones")
-                        .HasForeignKey("PreguntaOrigenId");
+                        .HasForeignKey("PreguntaDeOpcionMultipleId");
+                });
+
+            modelBuilder.Entity("PsychologyTest.Models.OpcionConValorDeVerdad", b =>
+                {
+                    b.HasOne("PsychologyTest.Models.MultiplesRespuestasConValor")
+                        .WithMany("Respuestas")
+                        .HasForeignKey("MultiplesRespuestasConValorId");
+                });
+
+            modelBuilder.Entity("PsychologyTest.Models.OpcionEscogida", b =>
+                {
+                    b.HasOne("PsychologyTest.Models.MultiplesRespuestas")
+                        .WithMany("Respuestas")
+                        .HasForeignKey("MultiplesRespuestasId");
                 });
 
             modelBuilder.Entity("PsychologyTest.Models.Pregunta", b =>
                 {
-                    b.HasOne("PsychologyTest.Models.PruebaPsicologica", "Prueba")
+                    b.HasOne("PsychologyTest.Models.PruebaPsicologica")
                         .WithMany("Preguntas")
-                        .HasForeignKey("PruebaId");
-
-                    b.HasOne("PsychologyTest.Models.TipoPregunta", "Tipo")
-                        .WithMany()
-                        .HasForeignKey("TipoId");
+                        .HasForeignKey("PruebaPsicologicaId");
                 });
 
-            modelBuilder.Entity("PsychologyTest.Models.PruebaAsignada", b =>
+            modelBuilder.Entity("PsychologyTest.Models.PruebaPsicologicaAsignada", b =>
                 {
                     b.HasOne("PsychologyTest.Models.Estudiante", "Encuestado")
                         .WithMany()
                         .HasForeignKey("EncuestadoId");
+
+                    b.HasOne("PsychologyTest.Models.PruebaPsicologica", "PruebaAsignada")
+                        .WithMany()
+                        .HasForeignKey("PruebaAsignadaId");
                 });
 
             modelBuilder.Entity("PsychologyTest.Models.Psicologo", b =>
@@ -508,6 +633,17 @@ namespace PsychologyTest.Migrations
                     b.HasOne("PsychologyTest.Models.PsyTestUser", "Usuario")
                         .WithMany()
                         .HasForeignKey("UsuarioId");
+                });
+
+            modelBuilder.Entity("PsychologyTest.Models.Respuesta", b =>
+                {
+                    b.HasOne("PsychologyTest.Models.Pregunta", "Pregunta")
+                        .WithMany()
+                        .HasForeignKey("PreguntaId");
+
+                    b.HasOne("PsychologyTest.Models.PruebaPsicologicaAsignada")
+                        .WithMany("Respuestas")
+                        .HasForeignKey("PruebaPsicologicaAsignadaId");
                 });
         }
     }

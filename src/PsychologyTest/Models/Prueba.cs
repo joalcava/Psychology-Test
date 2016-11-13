@@ -20,7 +20,6 @@ namespace PsychologyTest.Models
     public abstract class Pregunta
     {
         public int Id { get; set; }
-        public PruebaPsicologica Prueba { get; set; }
         public string Descripcion { get; set; }
         public string Anotaciones { get; set; }
         public int Posicion { get; set; }
@@ -45,10 +44,9 @@ namespace PsychologyTest.Models
 
     public class Opcion
     {
+        public int Id { get; set; }
         public string Texto {get; set;}
-        
-        // Es un identificador de posicion 
-        public int Valor {get; set;}
+        public int Valor {get; set; } // Es un identificador de posicion 
     }
 
     public class PruebaPsicologicaAsignada
@@ -84,7 +82,13 @@ namespace PsychologyTest.Models
 
     public class MultiplesRespuestas : Respuesta
     {
-        public List<int> Respuestas { get; set; }
+        public List<OpcionEscogida> Respuestas { get; set; }
+    }
+
+    public class OpcionEscogida
+    {
+        public int Id { get; set; }
+        public int Opcion { get; set; }
     }
 
     public class MultiplesRespuestasConValor : Respuesta

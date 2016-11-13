@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace PsychologyTest.Migrations
 {
-    public partial class InitDB : Migration
+    public partial class Migracioninicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -67,18 +67,33 @@ namespace PsychologyTest.Migrations
                 name: "Instituciones",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Nit = table.Column<int>(nullable: false),
                     Ciudad = table.Column<string>(nullable: true),
                     Direccion = table.Column<string>(nullable: true),
-                    Nit = table.Column<string>(nullable: true),
                     Nombre = table.Column<string>(nullable: true),
                     SitioWeb = table.Column<string>(nullable: true),
                     Telefono = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Instituciones", x => x.Id);
+                    table.PrimaryKey("PK_Instituciones", x => x.Nit);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PruebasPsicologicas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Activo = table.Column<bool>(nullable: false),
+                    Descripcion = table.Column<string>(nullable: true),
+                    FechaCreado = table.Column<DateTime>(nullable: false),
+                    FechaModificado = table.Column<DateTime>(nullable: false),
+                    Nombre = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PruebasPsicologicas", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -137,23 +152,27 @@ namespace PsychologyTest.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Grupos",
+                name: "Pregunta",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Grado = table.Column<string>(nullable: true),
-                    InstitucionId = table.Column<int>(nullable: true),
-                    Jornada = table.Column<string>(nullable: true),
-                    Nombre = table.Column<string>(nullable: true)
+                    Anotaciones = table.Column<string>(nullable: true),
+                    Descripcion = table.Column<string>(nullable: true),
+                    Discriminator = table.Column<string>(nullable: false),
+                    Posicion = table.Column<int>(nullable: false),
+                    PruebaPsicologicaId = table.Column<int>(nullable: true),
+                    Larga = table.Column<bool>(nullable: true),
+                    MultiplesRespuestas = table.Column<bool>(nullable: true),
+                    RespuestaConValorDeVerdad = table.Column<bool>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Grupos", x => x.Id);
+                    table.PrimaryKey("PK_Pregunta", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Grupos_Instituciones_InstitucionId",
-                        column: x => x.InstitucionId,
-                        principalTable: "Instituciones",
+                        name: "FK_Pregunta_PruebasPsicologicas_PruebaPsicologicaId",
+                        column: x => x.PruebaPsicologicaId,
+                        principalTable: "PruebasPsicologicas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -224,13 +243,82 @@ namespace PsychologyTest.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Psicologos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    UsuarioId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Psicologos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Psicologos_AspNetUsers_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Opciones",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    PreguntaDeOpcionMultipleId = table.Column<int>(nullable: true),
+                    Texto = table.Column<string>(nullable: true),
+                    Valor = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Opciones", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Opciones_Pregunta_PreguntaDeOpcionMultipleId",
+                        column: x => x.PreguntaDeOpcionMultipleId,
+                        principalTable: "Pregunta",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Grupos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Grado = table.Column<string>(nullable: true),
+                    InstitucionNit = table.Column<int>(nullable: true),
+                    Jornada = table.Column<string>(nullable: true),
+                    Nombre = table.Column<string>(nullable: true),
+                    PsicologoId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Grupos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Grupos_Instituciones_InstitucionNit",
+                        column: x => x.InstitucionNit,
+                        principalTable: "Instituciones",
+                        principalColumn: "Nit",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Grupos_Psicologos_PsicologoId",
+                        column: x => x.PsicologoId,
+                        principalTable: "Psicologos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Estudiantes",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     GrupoId = table.Column<int>(nullable: true),
-                    InstitucionId = table.Column<int>(nullable: true),
+                    InstitucionNit = table.Column<int>(nullable: true),
                     UsuarioId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -243,10 +331,10 @@ namespace PsychologyTest.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Estudiantes_Instituciones_InstitucionId",
-                        column: x => x.InstitucionId,
+                        name: "FK_Estudiantes_Instituciones_InstitucionNit",
+                        column: x => x.InstitucionNit,
                         principalTable: "Instituciones",
-                        principalColumn: "Id",
+                        principalColumn: "Nit",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Estudiantes_AspNetUsers_UsuarioId",
@@ -257,34 +345,104 @@ namespace PsychologyTest.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Psicologos",
+                name: "PruebasPsicologicaAsignadas",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    GrupoId = table.Column<int>(nullable: true),
-                    InstitucionId = table.Column<int>(nullable: true),
-                    UsuarioId = table.Column<string>(nullable: true)
+                    Completado = table.Column<bool>(nullable: false),
+                    Diagnostico = table.Column<string>(nullable: true),
+                    EncuestadoId = table.Column<int>(nullable: true),
+                    FechaAsignacion = table.Column<DateTime>(nullable: false),
+                    FechaFinalizacion = table.Column<DateTime>(nullable: false),
+                    FechaInicio = table.Column<DateTime>(nullable: false),
+                    Iniciado = table.Column<bool>(nullable: false),
+                    PruebaAsignadaId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Psicologos", x => x.Id);
+                    table.PrimaryKey("PK_PruebasPsicologicaAsignadas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Psicologos_Grupos_GrupoId",
-                        column: x => x.GrupoId,
-                        principalTable: "Grupos",
+                        name: "FK_PruebasPsicologicaAsignadas_Estudiantes_EncuestadoId",
+                        column: x => x.EncuestadoId,
+                        principalTable: "Estudiantes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Psicologos_Instituciones_InstitucionId",
-                        column: x => x.InstitucionId,
-                        principalTable: "Instituciones",
+                        name: "FK_PruebasPsicologicaAsignadas_PruebasPsicologicas_PruebaAsignadaId",
+                        column: x => x.PruebaAsignadaId,
+                        principalTable: "PruebasPsicologicas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Respuesta",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Discriminator = table.Column<string>(nullable: false),
+                    FechaRespondida = table.Column<DateTime>(nullable: false),
+                    PreguntaId = table.Column<int>(nullable: true),
+                    PruebaPsicologicaAsignadaId = table.Column<int>(nullable: true),
+                    TextoRespuesta = table.Column<string>(nullable: true),
+                    OpcionRespuesta = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Respuesta", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Respuesta_Pregunta_PreguntaId",
+                        column: x => x.PreguntaId,
+                        principalTable: "Pregunta",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Psicologos_AspNetUsers_UsuarioId",
-                        column: x => x.UsuarioId,
-                        principalTable: "AspNetUsers",
+                        name: "FK_Respuesta_PruebasPsicologicaAsignadas_PruebaPsicologicaAsignadaId",
+                        column: x => x.PruebaPsicologicaAsignadaId,
+                        principalTable: "PruebasPsicologicaAsignadas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OpcionesConValorDeVerdad",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    MultiplesRespuestasConValorId = table.Column<int>(nullable: true),
+                    Opcion = table.Column<int>(nullable: false),
+                    Valor = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OpcionesConValorDeVerdad", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OpcionesConValorDeVerdad_Respuesta_MultiplesRespuestasConValorId",
+                        column: x => x.MultiplesRespuestasConValorId,
+                        principalTable: "Respuesta",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OpcionesEscogidas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    MultiplesRespuestasId = table.Column<int>(nullable: true),
+                    Opcion = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OpcionesEscogidas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OpcionesEscogidas_Respuesta_MultiplesRespuestasId",
+                        column: x => x.MultiplesRespuestasId,
+                        principalTable: "Respuesta",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -325,9 +483,9 @@ namespace PsychologyTest.Migrations
                 column: "GrupoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Estudiantes_InstitucionId",
+                name: "IX_Estudiantes_InstitucionNit",
                 table: "Estudiantes",
-                column: "InstitucionId");
+                column: "InstitucionNit");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Estudiantes_UsuarioId",
@@ -335,19 +493,44 @@ namespace PsychologyTest.Migrations
                 column: "UsuarioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Grupos_InstitucionId",
+                name: "IX_Grupos_InstitucionNit",
                 table: "Grupos",
-                column: "InstitucionId");
+                column: "InstitucionNit");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Psicologos_GrupoId",
-                table: "Psicologos",
-                column: "GrupoId");
+                name: "IX_Grupos_PsicologoId",
+                table: "Grupos",
+                column: "PsicologoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Psicologos_InstitucionId",
-                table: "Psicologos",
-                column: "InstitucionId");
+                name: "IX_Opciones_PreguntaDeOpcionMultipleId",
+                table: "Opciones",
+                column: "PreguntaDeOpcionMultipleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OpcionesConValorDeVerdad_MultiplesRespuestasConValorId",
+                table: "OpcionesConValorDeVerdad",
+                column: "MultiplesRespuestasConValorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OpcionesEscogidas_MultiplesRespuestasId",
+                table: "OpcionesEscogidas",
+                column: "MultiplesRespuestasId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pregunta_PruebaPsicologicaId",
+                table: "Pregunta",
+                column: "PruebaPsicologicaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PruebasPsicologicaAsignadas_EncuestadoId",
+                table: "PruebasPsicologicaAsignadas",
+                column: "EncuestadoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PruebasPsicologicaAsignadas_PruebaAsignadaId",
+                table: "PruebasPsicologicaAsignadas",
+                column: "PruebaAsignadaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Psicologos_UsuarioId",
@@ -364,6 +547,16 @@ namespace PsychologyTest.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Respuesta_PreguntaId",
+                table: "Respuesta",
+                column: "PreguntaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Respuesta_PruebaPsicologicaAsignadaId",
+                table: "Respuesta",
+                column: "PruebaPsicologicaAsignadaId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -387,22 +580,43 @@ namespace PsychologyTest.Migrations
                 name: "UsuariosViejos");
 
             migrationBuilder.DropTable(
-                name: "Estudiantes");
+                name: "Opciones");
 
             migrationBuilder.DropTable(
-                name: "Psicologos");
+                name: "OpcionesConValorDeVerdad");
+
+            migrationBuilder.DropTable(
+                name: "OpcionesEscogidas");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Respuesta");
+
+            migrationBuilder.DropTable(
+                name: "Pregunta");
+
+            migrationBuilder.DropTable(
+                name: "PruebasPsicologicaAsignadas");
+
+            migrationBuilder.DropTable(
+                name: "Estudiantes");
+
+            migrationBuilder.DropTable(
+                name: "PruebasPsicologicas");
+
+            migrationBuilder.DropTable(
                 name: "Grupos");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Instituciones");
 
             migrationBuilder.DropTable(
-                name: "Instituciones");
+                name: "Psicologos");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

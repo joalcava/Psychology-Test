@@ -205,7 +205,7 @@ namespace PsychologyTest.Models
 
         public IEnumerable<PruebaPsicologica> GetAllTests(bool include = false)
         {
-            if (include)
+            if (!include)
                 return _context.PruebasPsicologicas.ToList();
             return _context.PruebasPsicologicas.Include(x => x.Preguntas).ToList();
         }
