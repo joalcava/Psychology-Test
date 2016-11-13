@@ -2,7 +2,7 @@
 @model PsychologyTest.ViewModels.AdminViewModels.CreateTestViewModel
 
 @{
-    ViewData["Title"] = "Crear Institucion";
+    ViewData["Title"] = "Nueva prueba psicologica";
 }
 
 @section UserActions{
@@ -11,15 +11,15 @@
         {
             <li><a asp-area="" asp-controller="Root" asp-action="UsersManage">Usuarios</a> </li>
         }
-        <li class="active"><a asp-area="" asp-controller="Admin" asp-action="InstitutionsManage">Instituciones</a></li>
+        <li><a asp-area="" asp-controller="Admin" asp-action="InstitutionsManage">Instituciones</a></li>
         <li><a asp-area="" asp-controller="Admin" asp-action="GroupsManage">Grupos</a></li>
-        <li><a asp-area="" asp-controller="Admin" asp-action="TestManage">Test</a></li>
+        <li class="active"><a asp-area="" asp-controller="Admin" asp-action="TestManage">Test</a></li>
     </ul>
 }
 
 <div>
     <div class="page-header">
-        <h1>Crear Institucion</h1>
+        <h1>Nueva prueba psicologica</h1>
     </div>
 
     @if (@Model.Success)
@@ -162,4 +162,12 @@
     </script>
 
 </div>
+
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.7.1/remarkable.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"></script>
+<script src="@Url.Content("~/js/testcreation.jsx")"></script>
+}
 

@@ -189,6 +189,7 @@ namespace PsychologyTest.Controllers
         [HttpGet]
         public IActionResult CreateTest()
         {
+            ViewBag.UserRol = User.IsInRole("Root") ? "Root" : "Admin";
             return View(new CreateTestViewModel());
         }
 
