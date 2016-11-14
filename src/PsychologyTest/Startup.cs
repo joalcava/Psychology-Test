@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
 using PsychologyTest.Models;
+using Microsoft.AspNetCore.Http;
+using React.AspNet;
 
 namespace PsychologyTest
 {
@@ -32,6 +34,9 @@ namespace PsychologyTest
         {
             services.AddSingleton(Configuration);
             // TODO: Agregar servicio controlador de Emails
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddReact();
 
             services.AddMvc(config =>
             {
@@ -93,6 +98,8 @@ namespace PsychologyTest
                 config.CreateMap<DeletedUsers, PsyTestUser>().ReverseMap().IgnoreAllPropertiesWithAnInaccessibleSetter().IgnoreAllSourcePropertiesWithAnInaccessibleSetter();
             });
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+
+            app.UseReact(config => { });
 
             app.UseStaticFiles();
             app.UseIdentity();
