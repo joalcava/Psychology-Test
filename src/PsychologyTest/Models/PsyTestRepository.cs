@@ -209,5 +209,25 @@ namespace PsychologyTest.Models
                 return _context.PruebasPsicologicas.ToList();
             return _context.PruebasPsicologicas.Include(x => x.Preguntas).ToList();
         }
+
+        public PruebaPsicologica AddTest(PruebaPsicologica prueba)
+        {
+            try
+            {
+                _context.PruebasPsicologicas.Add(prueba);
+                _context.SaveChanges();
+                return prueba;
+            }
+            catch{
+                return null;
+            }
+        }
+
+        public void DeleteTest(int testId)
+        {
+            var prueba = _context.PruebasPsicologicas.Include(p => p.Preguntas).First(psicologica => psicologica.Id == testId);
+            _context.PruebasPsicologicas.Remove(prueba);
+            _context.SaveChanges();
+        }
     }
 }

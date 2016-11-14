@@ -30,5 +30,7 @@ namespace PsychologyTest.Models
         void UpdateInstitucion(Institucion newInstitucionData);
         void UpdateGrupo(Grupo newGrupoData);
         IEnumerable<PruebaPsicologica> GetAllTests(bool include);
+        PruebaPsicologica AddTest(PruebaPsicologica prueba);
+        void DeleteTest(int testId);
     }
 }
