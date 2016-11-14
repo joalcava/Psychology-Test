@@ -196,9 +196,48 @@ namespace PsychologyTest.Controllers
         [HttpPost]
         public IActionResult CreateTest(CreateTestViewModel vm)
         {
+            if (ModelState.IsValid) {
+                var newTest = new PruebaPsicologica
+                {
+                    Nombre = vm.Nombre,
+                    Descripcion = vm.Descripcion,
+                    Preguntas = new List<Pregunta>(),
+                    FechaCreado = DateTime.Now,
+                    FechaModificado = DateTime.MinValue,
+                    Activo = false
+                };
+                var result = _repository.AddTest(newTest);
+                if (result != null)
+                {
+                    var responsevm = new AddQuestionsToTestViewModel {Id = result.Id, Nombre = result.Nombre};
+                    return RedirectToAction("AddQuestionsToTest", "Admin", responsevm);
+                }
+                ModelState.AddModelError("", "Hubo un problema mientras se intentaba agregar el nuevo test, porfavor intente mas tarde.");
+                return View(vm);
+            }
+            return View(vm);
+        }
+
+        [HttpGet]
+        public IActionResult AddQuestionsToTest(AddQuestionsToTestViewModel vm)
+        {
+            ViewBag.UserRol = User.IsInRole("Root") ? "Root" : "Admin";
+            return View(vm);
+        }
+
+        [HttpGet]
+        public IActionResult DeleteTest(int testId)
+        {
+            _repository.DeleteTest(testId);
+            return RedirectToAction("TestManage", "Admin");
+        }
+
+        [HttpGet]
+        public IActionResult EditTest(int testId)
+        {
             return View();
         }
-           
+
         #endregion
 
         #endregion
