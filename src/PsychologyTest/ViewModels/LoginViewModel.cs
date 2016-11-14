@@ -4,12 +4,12 @@ namespace PsychologyTest.ViewModels
 {
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Este campo es obligatorio")]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Correo")]
         public string Username { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Este campo es obligatorio")]
         [Display(Name = "Contraseña")]
         [DataType(DataType.Password)]
         public string Password { get; set; }

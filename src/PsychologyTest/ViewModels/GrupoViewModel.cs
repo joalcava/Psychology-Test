@@ -8,7 +8,7 @@ namespace PsychologyTest.ViewModels
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Este campo es obligatorio")]
         [StringLength(25, MinimumLength = 2, ErrorMessage = "El nombre debe contener almenos dos caracteres y maximo 25")]
         public string Nombre { get; set; }
 

@@ -11,7 +11,7 @@ namespace PsychologyTest.ViewModels
         [Display(Name = "Apellidos")]
         public string Apellidos { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Este campo es obligatorio")]
         [EmailAddress]
         [Display(Name = "Correo electronico")]
         public string Email { get; set; }
@@ -30,7 +30,7 @@ namespace PsychologyTest.ViewModels
 
         public string Genero { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Este campo es obligatorio")]
         [Display(Name = "Rol")]
         public string RolSolicitado { get; set; }
     }

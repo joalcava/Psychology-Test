@@ -9,16 +9,16 @@ namespace PsychologyTest.ViewModels.AuthViewModels
 {
     public class ResetPasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Este campo es obligatorio")]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Este campo es obligatorio")]
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña: ")]
         public string Password { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Este campo es obligatorio")]
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Las contraseñas no coinciden")]
         [Display(Name = "Confirme la contraseña")]
