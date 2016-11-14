@@ -17,157 +17,37 @@
     </ul>
 }
 
-<div>
-    <div class="page-header">
-        <h1>Nueva prueba psicologica</h1>
-    </div>
-
-    @if (@Model.Success)
-    {
-        <div class="alert alert-dismissible alert-success">
-            <button class="close" type="button" data-dismiss="alert">&times;</button>
-            La institucion se creo correctamente.
-        </div>
-    }
-
-
-    <form class="form-horizontal" method="post" novalidate>
-        <div asp-validation-summary="ModelOnly"></div>
-
-        <div class="form-group">
-            <label asp-for="Nombre" class="col-lg-2 control-label"></label>
-            <div class="col-lg-10">
-                <input asp-for="Nombre" class="form-control" type="text" />
-                <span asp-validation-for="Nombre"></span>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="textArea" asp-for="Descripcion" class="col-lg-2 control-label"></label>
-            <div class="col-lg-10">
-                <textarea class="form-control" rows="3" id="textArea" asp-for="Descripcion"></textarea>
-                <span asp-validation-for="Descripcion"></span>
-            </div>
-        </div>
-
-        <hr />
-
-        <div class="form-group">
-            <h3 class="col-lg-2">Nueva pregunta</h3>
-            <div class="col-lg-10">
-                <label class="control-label">Tipo de pregunta</label>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
-                        Opcion multiple con asignacion de valor
-                    </label>
-                </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-                        Opcion multiple con unica respuesta
-                    </label>
-                </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
-                        Opcion multiple con multiple respuesta
-                    </label>
-                </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="optionsRadios" id="optionsRadios4" value="option3">
-                        Unica respuesta abierta
-                    </label>
-                </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="optionsRadios" id="optionsRadios5" value="option3">
-                        Unica respuesta Si/No
-                    </label>
-                </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="optionsRadios" id="optionsRadios6" value="option3">
-                        Unica respuesta de valor difuso (1-10|0.1-0.9)
-                    </label>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-lg-10 ">
-                        <p></p>
-                        <p><input id="agregarbtn" type="button" class="btn btn-primary" value="Agregar" onclick="filtrarPregunta();"/>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <hr />
-
-        <div class="form-group" id="panelPreguntas">
-
-        </div>
-
-        <div class="form-group">
-            <div class="col-lg-10 col-lg-offset-2">
-                <a asp-controller="Admin" asp-action="TestManage" class="btn btn-default">Volver</a>
-                <button class="btn btn-primary" type="submit">Enviar</button>
-            </div>
-        </div>
-    </form>
-
-    <script>
-
-        function filtrarPregunta() {
-            if (document.getElementById("optionsRadios1").checked) {
-                opcionMultipleConValores();
-            } else if (document.getElementById("optionsRadios2").checked) {
-                opcionMultipleUnicaRespuesta();
-            } else if (document.getElementById("optionsRadios3").checked) {
-                opcionMultipleMultipleRespuesta();
-            } else if (document.getElementById("optionsRadios4").checked) {
-                unicaRespuestaAbierta();
-            } else if (document.getElementById("optionsRadios5").checked) {
-                unicaRespuestaSiNo();
-            } else if (document.getElementById("optionsRadios6").checked) {
-                unicaRespuestaConValores();
-            }
-        }
-
-        function opcionMultipleConValores() {
-            var panel = document.getElementById("panelPreguntas");
-            panel.innerHTML += "Opcion multiple con asignacion de valor";
-        }
-        function opcionMultipleUnicaRespuesta() {
-            var panel = document.getElementById("panelPreguntas");
-            panel.innerHTML += "Opcion multiple con unica respuesta";
-        }
-        function opcionMultipleMultipleRespuesta() {
-            var panel = document.getElementById("panelPreguntas");
-            panel.innerHTML += "Opcion multiple con multiple respuesta";
-        }
-        function unicaRespuestaAbierta() {
-            var panel = document.getElementById("panelPreguntas");
-            panel.innerHTML += "Unica respuesta abierta";
-        }
-        function unicaRespuestaSiNo() {
-            var panel = document.getElementById("panelPreguntas");
-            panel.innerHTML += "Unica respuesta Si/No";
-
-        }
-        function unicaRespuestaConValores() {
-            var panel = document.getElementById("panelPreguntas");
-            panel.innerHTML += "Unica respuesta de valor difuso (1-10|0.1-0.9)";
-        }
-    </script>
-
+<div class="page-header">
+    <h1>Nueva prueba psicologica</h1>
 </div>
 
-@section Scripts{
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react-dom.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.7.1/remarkable.min.js"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"></script>
-<script src="@Url.Content("~/js/testcreation.jsx")"></script>
-}
+<form class="form-horizontal" method="post" novalidate>
+    <div asp-validation-summary="ModelOnly"></div>
 
+    <div class="form-group">
+        <label asp-for="Nombre" class="col-lg-2 control-label"></label>
+        <div class="col-lg-10">
+            <input asp-for="Nombre" class="form-control" placeholder="Titulo del test" type="text">
+            <span asp-validation-for="Nombre"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Descripcion" class="col-lg-2 control-label"></label>
+        <div class="col-lg-10">
+            <textarea asp-for="Descripcion" class="form-control" rows="4" placeholder="Agregue una descripcion que pueda guiar a su correcta finalizacion a quienes responan el test. Recuerde que puede usar el formato MarkDown para hacer mas expresiva esta descripcion."></textarea>
+            <span asp-validation-for="Descripcion"></span>
+        </div>
+    </div>
+
+    <hr/>
+    <h4>Si ya termino con el titulo y la descripcion presione el boton Continuar para que pueda agregar las preguntas.</h4>
+
+    <div class="form-group">
+        <div class="col-lg-10 col-lg-offset-2">
+            <button type="reset" class="btn btn-default">Limpiar</button>
+            <button type="submit" class="btn btn-primary">Continuar</button>
+        </div>
+    </div>
+
+</form>
