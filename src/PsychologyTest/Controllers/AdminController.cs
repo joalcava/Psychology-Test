@@ -238,6 +238,55 @@ namespace PsychologyTest.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult GetQuestions(string testId)
+        {
+            try {
+                var _testId = Convert.ToInt32(testId);
+                var questions = _repository.GetQuestions(_testId);
+                var questionsMaped = this.MapQuestionsToJson(questions);
+                return Json(questionsMaped);
+            }
+            catch {
+                return Json(new List<string>());
+            }
+        }
+
+        private List<Dictionary<string, object>> MapQuestionsToJson(IEnumerable<Pregunta> preguntas)
+        {
+            var maped = new List<Dictionary<string, object>>();
+            foreach (var pregunta in preguntas)
+            {
+                var element = new Dictionary<string, object>();
+                element.Add("id", pregunta.Id.ToString());
+                element.Add("position", pregunta.Posicion.ToString());
+                element.Add("description", pregunta.Descripcion);
+                if (pregunta is PreguntaAbierta) {
+                    element.Add("type", (pregunta as PreguntaAbierta).Larga ? "openlong" : "openshort");
+                } else if (pregunta is PreguntaDeOpcionMultiple) {
+                    if (!(pregunta as PreguntaDeOpcionMultiple).MultiplesRespuestas)
+                        element.Add("type", "closedunique");
+                    else
+                        element.Add("type",
+                            !(pregunta as PreguntaDeOpcionMultiple).RespuestaConValorDeVerdad
+                                ? "closedmultiple"
+                                : "closedmultiplevaluated");
+
+                    var optionsstring = new List<Dictionary<string, string>>();
+                    foreach (var opcion in (pregunta as PreguntaDeOpcionMultiple).Opciones)
+                    {
+                        var temp = new Dictionary<string, string>();
+                        temp.Add("id", opcion.Id.ToString());
+                        temp.Add("text", opcion.Texto);
+                        optionsstring.Add(temp);
+                    }
+                    element.Add("options", optionsstring);
+                }
+                maped.Add(element);
+            }
+            return maped;
+        }
+
         #endregion
 
         #endregion

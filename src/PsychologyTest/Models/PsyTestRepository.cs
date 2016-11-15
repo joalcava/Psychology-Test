@@ -229,5 +229,21 @@ namespace PsychologyTest.Models
             _context.PruebasPsicologicas.Remove(prueba);
             _context.SaveChanges();
         }
+
+        public List<Pregunta> GetQuestions(int questionID)
+        {
+            var test = _context.PruebasPsicologicas.
+                            Include(a => a.Preguntas).
+                            First(p => p.Id == questionID);
+
+            for (int i = 0; i < test.Preguntas.Count; i++)
+            {
+                if (test.Preguntas[i] is PreguntaDeOpcionMultiple)
+                {
+                    test.Preguntas[i] = _context.PreguntasDeOpcionMultiple.Include(c => c.Opciones).First(b => b.Id == test.Preguntas[i].Id);
+                }
+            }
+            return test.Preguntas;
+        }
     }
 }

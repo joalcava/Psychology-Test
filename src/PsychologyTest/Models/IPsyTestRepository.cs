@@ -32,5 +32,6 @@ namespace PsychologyTest.Models
         IEnumerable<PruebaPsicologica> GetAllTests(bool include);
         PruebaPsicologica AddTest(PruebaPsicologica prueba);
         void DeleteTest(int testId);
+        List<Pregunta> GetQuestions(int questionID);
     }
 }
