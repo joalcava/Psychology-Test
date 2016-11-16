@@ -1,33 +1,37 @@
 ﻿var QuestionBox = React.createClass({
-    
-    getInitialState: function() {
-        return { data: [{id: 1, position: 1, description: "Pregunta de prueba", type: "closedshort", options: [{id:1, text: "Opcion de prueba"}, {id:2, text: "Otra opcion de prueba"}]}] };
+
+    getInitialState: function () {
+        return { data: [] };
     },
 
-    loadQuestionsFromServer: function() {
+    loadQuestionsFromServer: function () {
         var xhr = new XMLHttpRequest();
         xhr.open('get', this.props.url, true);
-        xhr.onload = function() {
+        xhr.onload = function () {
             var data = JSON.parse(xhr.responseText);
             this.setState({ data: data });
         }.bind(this);
         xhr.send();
     },
 
-    componentDidMount: function() {
+    componentDidMount: function () {
         this.loadQuestionsFromServer();
         //window.setInterval(this.loadQuestionsFromServer, this.props.pollInterval);
     },
 
-    handleQuestionSubmit: function(option) {
-        
+    handleQuestionSubmit: function (option) {
+
     },
 
     render: function () {
         return (
             <div className="questionBox">
-                <QuestionList data={this.state.data}/>
-                <QuestionForm />
+                <div className="row">
+                    <QuestionList data={this.state.data} />
+                </div>
+                <div className="row">
+                    <QuestionForm />
+                </div>
             </div>
         );
     }
@@ -35,10 +39,12 @@
 
 var QuestionList = React.createClass({
     render: function () {
-        var questionNodes = this.props.data.map(function(question) {
+        var questionNodes = this.props.data.map(function (question) {
             return (
-                <Question position={question.position} description={question.description} key={question.id}>
-                    {String(question.options)}
+                <Question position={question.position}
+                          description={question.description}
+                          key={question.id}
+                          options={question.options}>
                 </Question>
                 );
         });
@@ -52,15 +58,15 @@ var QuestionList = React.createClass({
 
 var QuestionForm = React.createClass({
 
-    getInitialState: function() {
+    getInitialState: function () {
         return { type: "", position: "", description: "", options: [] };
     },
 
-    handlePositionChange: function(e) {
+    handlePositionChange: function (e) {
         this.setState({ position: e.target.value });
     },
 
-    handleDescriptionChange: function(e) {
+    handleDescriptionChange: function (e) {
         this.setState({ description: e.target.value });
     },
 
@@ -79,20 +85,20 @@ var QuestionForm = React.createClass({
         if (op === 0) {
             ReactDOM.render(<div></div>, document.getElementById("questionOptionsContent"));
         } else if (op === 1) {
-            this.setState({ type: "openshort"});
+            this.setState({ type: "openshort" });
             ReactDOM.render(<div></div>, document.getElementById("questionOptionsContent"));
         } else if (op === 2) {
             this.setState({ type: "opendlong" });
             ReactDOM.render(<div></div>, document.getElementById("questionOptionsContent"));
         } else if (op === 3) {
             this.setState({ type: "closedunique" });
-            ReactDOM.render(<OptionBox onOptionSubmit={this.handleOptionSubmit}></OptionBox>, document.getElementById("questionOptionsContent"));
+            ReactDOM.render(<OptionBox onOptionSubmit={this.handleOptionSubmit }></OptionBox>, document.getElementById("questionOptionsContent"));
         } else if (op === 4) {
             this.setState({ type: "closedmultiple" });
-            ReactDOM.render(<OptionBox onOptionSubmit={this.handleOptionSubmit}></OptionBox>, document.getElementById("questionOptionsContent"));
+            ReactDOM.render(<OptionBox onOptionSubmit={this.handleOptionSubmit }></OptionBox>, document.getElementById("questionOptionsContent"));
         } else if (op === 5) {
             this.setState({ type: "closedmulitplevaluated" });
-            ReactDOM.render(<OptionBox onOptionSubmit={this.handleOptionSubmit}></OptionBox>, document.getElementById("questionOptionsContent"));
+            ReactDOM.render(<OptionBox onOptionSubmit={this.handleOptionSubmit }></OptionBox>, document.getElementById("questionOptionsContent"));
         }
     },
 
@@ -104,13 +110,13 @@ var QuestionForm = React.createClass({
                         <h3>Nueva pregunta</h3>
                         <div className="form-group col-sm-2">
                             <label>Posicion</label>
-                            <input className="form-control" type="number" value={this.state.position} onChange={this.handlePositionChange}/>
+                            <input className="form-control" type="number" value={this.state.position} onChange={this.handlePositionChange} />
                         </div>
                         <div className="form-group col-sm-10">
                             <label>Descripcion</label>
-                            <input className="form-control" value={this.state.description} onChange={this.handleDescriptionChange}/>
+                            <input className="form-control" value={this.state.description} onChange={this.handleDescriptionChange} />
                         </div>
-                        <div className="form-group col-sm-12">
+                        <div className="form-group col-lg-12">
                             <label>Tipo de pregunta</label>
                             <select className="form-control" id="questionType" onChange={this.handleQuestionTypeChange}>
                                 <option value="0"></option>
@@ -122,8 +128,8 @@ var QuestionForm = React.createClass({
                             </select>
                         </div>
                         <div id="questionOptionsContent"></div>
-                        
-                        <div className="form-group col-sm-12">
+
+                        <div className="form-group col-lg-12">
                             <div>
                                 <button className="btn btn-primary btn-lg" type="button">Volver</button>
                                 <button className="btn btn-success btn-lg" type="submit">Enviar</button>
@@ -140,7 +146,8 @@ var Question = React.createClass({
     render: function () {
         return (
             <div className="question">
-                <h4>{this.props.position} - {this.props.description}</h4>
+                <h4><b>{this.props.position}</b> - {this.props.description}</h4>
+                <OptionList data={this.props.options} />
                 {this.props.children}
             </div>
         );
@@ -234,7 +241,7 @@ var OptionForm = React.createClass({
                             <button type="button" className="btn btn-primary" onClick={this.handleSubmit}>Agregar</button>
                         </div>
                     </div>
-                    <hr/>
+                    <hr />
                 </div>
             </div>
             );
@@ -260,4 +267,4 @@ var Option = React.createClass({
 });
 var testid = document.getElementById("testid").value;
 var getquestionsurl = "/Admin/GetQuestions?testId=" + testid;
-ReactDOM.render(<QuestionBox url={getquestionsurl} pollInterval={10000} />, document.getElementById('content'));
+ReactDOM.render(<QuestionBox url={getquestionsurl} pollInterval={10000 } />, document.getElementById('content'));
