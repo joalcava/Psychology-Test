@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<PsychologyTest.Models.PruebaPsicologica>
+@using PsychologyTest.ViewModels.AdminViewModels
 
 @{
     ViewData["Title"] = "Administrar Tests";
@@ -58,7 +59,7 @@
                         <td>@prueba.FechaCreado</td>
                         <td>
                             <div class="btn-group-sm">
-                                <a class="btn btn-info" asp-area="" asp-controller="Admin" asp-action="EditTest" asp-route-testId="@prueba.Id" data-toggle="tooltip" title="Editar">
+                                <a class="btn btn-info" asp-area="" asp-controller="Admin" asp-action="AddQuestionsToTest" asp-route-Id="@prueba.Id" asp-route-Nombre="@prueba.Nombre" data-toggle="tooltip" title="Editar">
                                     <i class="fa fa-edit"></i>
                                 </a>
                                 <a class="btn btn-danger" asp-area="" asp-controller="Admin" asp-action="DeleteTest" asp-route-testId="@prueba.Id" data-toggle="tooltip" title="Eliminar">
